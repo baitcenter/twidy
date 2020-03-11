@@ -1,31 +1,45 @@
-// Import Vue
 import Vue from 'vue';
-
-// Import Framework7
 import Framework7 from 'framework7/framework7-lite.esm.bundle.js';
-
-// Import Framework7-Vue Plugin
 import Framework7Vue from 'framework7-vue/framework7-vue.esm.bundle.js';
-
-// Import Framework7 Styles
 import 'framework7/css/framework7.bundle.css';
-
-// Import Icons and App Custom Styles
 import '../css/icons.css';
 import '../css/app.scss';
-
-// Import App Component
 import App from '../components/app.vue';
+import VueTheMask from 'vue-the-mask';
+import VueFlex from '@seregpie/vueflex';
+import MoneyFormat from 'vue-money-format';
+import Framework7Keypad from 'framework7-plugin-keypad/dist/framework7-keypad.min.js';
+import 'framework7-plugin-keypad/dist/framework7-keypad.min.css';
+import VueBankCard from "@avto-dev/bank-card-vue-component"
+import "@avto-dev/bank-card-vue-component/dist/bank-card-vue-component.css";
+import VueApexCharts from 'vue-apexcharts';
+import VueAnimated from '@codekraft-studio/vue-animated';
+import VueVideoPlayer from 'vue-video-player';
+import 'video.js/dist/video-js.min.css';
 
-// Init Framework7-Vue Plugin
+Vue.use(VueVideoPlayer);
+Vue.use(VueAnimated);
+Vue.use(VueApexCharts);
+
 Framework7.use(Framework7Vue);
+// Framework7.use(Framework7Keypad);
 
-// Init App
+Vue.use(VueTheMask);
+Vue.use(VueFlex);
+
+Vue.component('MoneyFormat', MoneyFormat);
+Vue.component("VueBankCard", VueBankCard);
+
+import notify from "@/components/modules/notify/"
+
 new Vue({
   el: '#app',
   render: (h) => h(App),
-
-  // Register App Component
+  data() {
+    return {
+      notify
+    }
+  },
   components: {
     app: App
   },

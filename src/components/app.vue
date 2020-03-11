@@ -44,3 +44,15 @@ export default {
     }
 }
 </script>
+
+<style>
+  @font-face {
+    font-family: 'San Francisco Pro Display Thin';
+    src: url('../fonts/SFProDisplay-Thin.eot');
+    src: url('../fonts/SFProDisplay-Thin.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/SFProDisplay-Thin.woff') format('woff'),
+    url('../fonts/SFProDisplay-Thin.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+</style>
