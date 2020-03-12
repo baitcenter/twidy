@@ -311,7 +311,7 @@ export default {
         },
 
         twoFactor() {
-          if(this.phoneNumber.replace(/\s/g, '').length !== 10) {
+          if(this.phoneNumber.replace(/\s/g, '').length < 10) {
               alert('Недостаточно цифр');
               return false;
           }
@@ -329,7 +329,6 @@ export default {
               this.identification = resp.data.result.i;
               this.repeatTimerStart();
               
-              // document.getElementById("codeSignInput").focus();
             })
             .catch( e => {
               this.$f7.dialog.close();
@@ -353,32 +352,31 @@ export default {
           // })
           
       },
-      SelectCountry(c) {
+      SelectCountry(country) {
           
           this.phoneNumber = '';
-          this.current = c;
-          this.phoneCode = c.phonecode;
+          this.current = country;
+          this.phoneCode = country.phonecode;
           this.phoneNumber = '';
           this.getPhoneMask();
 
       },
     },
 
-      //   mounted() {
-      //     let self = this;
-      //     let app = this.$f7;
-          
-      //     this.items = db.country;
-          
-      //     request.get("/user/auth/location.detect/", {}, (r) => {
-      //         db.country.forEach((item) => {
-      //             if(item.sortname === r.countryCode) {
-      //                 this.SelectCountry(item);
-      //                 return;
-      //             }
-      //         });
+    mounted() {
+      // this.items = db.country;
+
+      this.$store.dispatch("GET_COUNTRY_LIST")
+
+      //  {}, (r) => {
+      //     db.country.forEach((item) => {
+      //         if(item.sortname === r.countryCode) {
+      //             this.SelectCountry(item);
+      //             return;
+      //         }
       //     });
-      // }
+      // });
+    }
 }
 </script>
 

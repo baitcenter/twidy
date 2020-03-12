@@ -23,13 +23,6 @@
                   <span v-show="slide.visible"> {{ slide.text }} </span>
                 </div>
               </div>
-
-              <!-- <div class="slide-desc__btn">
-                <div class="slide-desc__btn__wrapper">
-                  <f7-button class="slide-desc__btn__wrapper__button" icon-f7="arrow_right" fill></f7-button>
-                </div>
-              </div> -->
-
             </div>
 
           </f7-block>
@@ -38,7 +31,7 @@
 
     <div class="slide-btn">
       <div class="slide-btn__wrapper">
-        <f7-button class="slide-btn__wrapper__button" icon-f7="arrow_right" fill></f7-button>
+        <f7-button class="slide-btn__wrapper__button" icon-f7="arrow_right" fill @click="nextSlide"></f7-button>
       </div>
     </div>  
 
@@ -133,7 +126,7 @@ export default {
     },
     
     slideBack() {
-          this.$refs.swiper.swiper.slidePrev();
+      this.$refs.swiper.swiper.slidePrev();
     },
     
     nextSlide() {
@@ -364,8 +357,11 @@ export default {
     background: #F2F2FE;
     padding: 15px;
     position: relative;
-    overflow: hidden;
-    overflow-x: hidden;
+    
+      .page-content {
+        overflow: hidden;
+        overflow-x: hidden;
+      }
   }
 
   .home-silder {
@@ -373,6 +369,8 @@ export default {
     border-radius: 35px;
     position: relative;
     background: #503EA9;
+    overflow: hidden;
+    overflow-x: hidden;
   }
 
   .swiper-pagination-bullet-active {
