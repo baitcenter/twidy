@@ -4,7 +4,7 @@
 
       <f7-toolbar id="main-toolbar" tabbar bottom>
     
-          <f7-link  icon-only tab-link="#discover" tab-link-active icon-f7="house"  ></f7-link>
+          <f7-link  icon-only tab-link="#discover" tab-link-active icon-f7="house" ></f7-link>
           
           <f7-link  icon-only tab-link="#chats" icon-f7="chat_bubble">
               <f7-badge v-if="dialogList.balance > 0" color="yellow" style="position: absolute; right: 5px; top: 0;">
