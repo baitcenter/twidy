@@ -1,7 +1,14 @@
 <template>
-    <f7-app :params="f7params">        
+    <f7-app :params="f7params">       
         <f7-view main
-          url='/authorization'
+          class="safe-areas"
+          :stackPages="true" 
+          :iosAnimateNavbarBackIcon="false"
+          :masterDetailBreakpoint="450"
+          :iosDynamicNavbar="false"
+          :iosSwipeBackAnimateShadow="false"
+          :iosSwipeBackAnimateOpacity="false"
+          url='/'
         ></f7-view>     
     </f7-app>
 </template>

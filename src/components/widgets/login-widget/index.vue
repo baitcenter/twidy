@@ -15,8 +15,8 @@
                         >
                     </f7-searchbar>
                     
-                    <f7-list class="country-list" v-if="countryPopupOpened">
-                        <f7-list-item v-for="c in countrys" :key="c.name" link no-chevron @click="phoneCode = `${c.phonecode}`; current = c; $refs.searchbar.disable();">
+                    <f7-list class="country-list-search" v-if="countryPopupOpened">
+                        <f7-list-item v-for="c in allCountrys" :key="c.name" link no-chevron @click="phoneCode = `${c.phonecode}`; current = c; $refs.searchbar.disable();">
                           <div slot="title">
                               {{ c.name }}
                           </div>
@@ -71,7 +71,7 @@
                                 type="tel"
                                 autofocus
                                 placeholder="Код проверки"
-                                v-mask="'####'"
+                                v-mask="'######'"
                                 :value="codeSign"
                                 input-id="codeSignInput"
                                 inputStyle="letter-spacing: 30px; width: 100%; text-align: center; border-bottom: 1px solid rgba(140, 140, 182, 0.5)"
@@ -107,7 +107,7 @@
 
                     <f7-list-item  class="phone-list" v-if='phoneCode !== ""'>
                         <f7-list-item-row>
-                            <f7-list-item-cell style="max-width: 15%; border-right: 1px solid rgba(0,0,0,0.1);">
+                            <f7-list-item-cell style="max-width: 17%; border-right: 1px solid rgba(0,0,0,0.1)">
                                 <f7-input 
                                     type="tel"
                                     :value="`+${phoneCode}`" 
@@ -223,17 +223,13 @@ export default {
           
           $$("#codeSignInput").blur();
           $$("#passwordSignInput").blur();
-          
-          request.post("/auth/login/", {
-              phoneNumber: this.phoneCode + this.phoneNumber,
-              code: this.codeSign,
-              identification: this.identification,
-              password: password
-          }, (response) => {
-              
-              request.setCookie("access_token", response.access_token, response.days);
-              request.setCookie("call", JSON.stringify({ id: response.call_id }), response.days);
 
+          this.$store.dispatch('GET_AUTH_CONFIRM', {
+              phone: this.phoneCode + this.phoneNumber,
+              i: this.getAuthI._d.i,
+              c: this.codeSign
+          })
+            .then( () => {
               this.$f7.dialog.close();
               this.is_already_submit = false;
 
@@ -241,33 +237,57 @@ export default {
                 clearPreviousHistory: true,
                 animate: false
               });
-              
+
               this.$f7.popup.close(".login-pop-up");
               this.$refs.passwordPopUp.close();
               this.is_need_code = false;
+            })
+
+          //  _____________________________________________________________
+          
+          // request.post("/auth/login/", {
+          //     phone: this.phoneCode + this.phoneNumber,
+          //     c: this.codeSign,
+          //     i: this.getAuthI._d.i,
+          // }, (response) => {
               
-          }, (e) => {
+          //     request.setCookie("access_token", response.access_token, response.days);
+          //     request.setCookie("call", JSON.stringify({ id: response.call_id }), response.days);
+
+          //     this.$f7.dialog.close();
+          //     this.is_already_submit = false;
+
+          //     this.$f7router.navigate("/", {
+          //       clearPreviousHistory: true,
+          //       animate: false
+          //     });
               
-              this.$f7.dialog.close();
+          //     this.$f7.popup.close(".login-pop-up");
+          //     this.$refs.passwordPopUp.close();
+          //     this.is_need_code = false;
               
-              this.is_already_submit = false;
+          // }, (e) => {
               
-              if(!e.responseData) {
-                return;
-              }
+          //     this.$f7.dialog.close();
               
-              if(e.responseData.is_need_password) {
-                  this.is_need_password = true;
-                  this.isLoginScreen = false;
-                  this.is_need_code = false;
-                  this.$f7.popup.open(".is-need-password");
-                  this.preview = e.responseData.user;
-                  return;
-              }
+          //     this.is_already_submit = false;
               
-                self.code = '';
+          //     if(!e.responseData) {
+          //       return;
+          //     }
+              
+          //     if(e.responseData.is_need_password) {
+          //         this.is_need_password = true;
+          //         this.isLoginScreen = false;
+          //         this.is_need_code = false;
+          //         this.$f7.popup.open(".is-need-password");
+          //         this.preview = e.responseData.user;
+          //         return;
+          //     }
+              
+          //       self.code = '';
             
-          });
+          // });
           
       },
 
@@ -291,59 +311,35 @@ export default {
         }, 1000);
 
       },
+
       onCodeInput(code) {
         this.codeSign = code;
         if(this.codeSign.length === 6) {
-            this.auth();
+          this.auth();
         }
       },
 
       twoFactor() {
+
         if(this.phoneNumber.replace(/\s/g, '').length < 10) {
-            alert('Недостаточно цифр');
-            return false;
+          alert('Недостаточно цифр');
+          return false;
         }
-        
-      this.$store.dispatch('GET_AUTH', {
-        phone: this.phoneCode + this.phoneNumber
-      })
 
-        // this.$f7.dialog.preloader('');
+        this.$f7.dialog.preloader('');
 
-        // axios.post('http://dev.twidy.ru/api/methods/auth?', {
-        //   phone: this.phoneCode + this.phoneNumber
-        // })
-        //   .then( resp => {
-        //     console.log(resp)
-        //     this.$f7.dialog.close();
-
-        //     this.is_need_code = true;
-        //     this.identification = resp.data.result.i;
-        //     this.repeatTimerStart();
-            
-        //   })
-        //   .catch( e => {
-        //     this.$f7.dialog.close();
-        //     console.log(e)
-        //   })
-
-        // request.post("/auth/login/twofactor.request/", {
-        //     phoneNumber: this.phoneCode + this.phoneNumber
-        // }, (r) => {
-            
-        //     this.$f7.dialog.close();
-
-        //     that.is_need_code = true;
-        //     that.identification = r.identification;
-        //     that.repeatTimerStart();
-            
-        //     document.getElementById("codeSignInput").focus();
-            
-        // }, (e) => {
-        //     this.$f7.dialog.close();
-        // })
+        this.$store.dispatch('GET_AUTH', {
+          phone: this.phoneCode + this.phoneNumber
+        })
+          .then( () => {
+            this.$f7.dialog.close();
+            this.is_need_code = true;
+            this.repeatTimerStart();
+          })
+          .catch( () => this.$f7.dialog.close())
 
       },
+
       SelectCountry(country) {
           this.phoneNumber = '';
           this.current = country;
@@ -353,15 +349,28 @@ export default {
       },
     },
 
+    computed: {
+      allCountrys() {
+        return !this.$store.getters.getAllCountry ? [] : this.$store.getters.getAllCountry 
+      },
+
+      getLocation() {
+        return !this.$store.getters.getLocation ? [] : this.$store.getters.getLocation
+      },
+
+      getAuthI() {
+        return !this.$store.getters.getAuthI ? [] : this.$store.getters.getAuthI
+      }
+    },
+
     mounted() {
       this.$store.dispatch("GET_COUNTRY_LIST")
         .then( resp => {
-          this.countrys = resp.country;
           return this.$store.dispatch("GET_LOCATION")
         })
         .then( location => {
-          this.countrys.forEach( country => {
-            if(country.name === location.name) {
+          this.allCountrys.forEach( country => {
+            if(country.name === this.getLocation.name) {
               this.SelectCountry(country);
               return;
             }
@@ -400,6 +409,12 @@ export default {
     border-bottom: 1px solid rgba(140,140,182,0.25);
     color: #4E3F6F;
   }
+
+  .country-list-search {
+    color: #4E3F6F;
+    margin: 0;
+  }
+
 
   .phone-list {
     border-bottom: 1px solid rgba(140,140,182,0.25);
@@ -441,5 +456,9 @@ export default {
     padding: 0 5%;
     font-size: 12px;
     color: #8C8CB6;
+  }
+
+  .searchbar-disable-button {
+    color: #615DFA!important
   }
 </style>
