@@ -1,6 +1,5 @@
 <template>
     <div>
-       
             <f7-popup ref="country" @popup:open='countryPopupOpened = true;' @popup:opened="$refs.searchbar.enable(); " @popup:close="countryPopupOpened = false;" push >
                 
                 <f7-page>
@@ -10,19 +9,20 @@
                           disable-button-text="Отмена"
                           placeholder="Поиск страны"
                           search-container=".country-list"
+                          search-in=".title"
                           :backdrop="false"
                           :clear-button="true"
                         >
                     </f7-searchbar>
                     
                     <f7-list class="country-list" v-if="countryPopupOpened">
-                        <f7-list-item v-for="c in db.country" :key="c" link no-chevron @click="phoneCode = `${c.phonecode}`; current = c; $refs.searchbar.disable();">
-                            <div slot="title">
-                                {{ c.name }}
-                            </div>
-                            <div slot="after">
-                                +{{ c.phonecode }}
-                            </div>
+                        <f7-list-item v-for="c in countrys" :key="c.name" link no-chevron @click="phoneCode = `${c.phonecode}`; current = c; $refs.searchbar.disable();">
+                          <div slot="title">
+                              {{ c.name }}
+                          </div>
+                          <div slot="after">
+                              +{{ c.phonecode }}
+                          </div>
                         </f7-list-item>
                     </f7-list>
                     
@@ -184,6 +184,16 @@ export default {
       vlData: {
         items: [],
       },
+
+      countrys: [],
+      location: null,
+      country: ''
+    }
+  },
+
+  computed: {
+    filterCountrys: function() {
+      
     }
   },
     methods: {
@@ -203,9 +213,9 @@ export default {
           let SHA1 = require("crypto-js/sha1");
           
           if(this.is_need_password) {
-              let password = SHA1(this.password).toString();
+            let password = SHA1(this.password).toString();
           } else {
-              let password = null;
+            let password = null;
           }
           
           
@@ -228,8 +238,8 @@ export default {
               this.is_already_submit = false;
 
               this.$f7router.navigate("/", {
-                  clearPreviousHistory: true,
-                  animate: false
+                clearPreviousHistory: true,
+                animate: false
               });
               
               this.$f7.popup.close(".login-pop-up");
@@ -243,7 +253,7 @@ export default {
               this.is_already_submit = false;
               
               if(!e.responseData) {
-                  return;
+                return;
               }
               
               if(e.responseData.is_need_password) {
@@ -257,125 +267,106 @@ export default {
               
                 self.code = '';
             
-              
           });
           
       },
-      searchAll(query, items) {
-          const found = [];
-          for (let i = 0; i < items.length; i += 1) {
-            if (items[i].name.toLowerCase().indexOf(query.toLowerCase()) >= 0 || query.trim() === '') found.push(i);
-          }
-          return found; // return array with mathced indexes
-        },
-        renderExternal(vl, vlData) {
-          this.vlData = vlData;
-      },
+
       getPhoneMask() {
-        
           let mask = '+' + this.phoneCode.toString();
           mask = mask + ' ### ###-##-##';
           this.mask = mask;
           return mask;
-              
       },
-      country() {
+
+      repeatTimerStart() {
+        this.RepeatTwoFactor = 60;
+        this.is_allowed_code_repeat = false;
+        let interval = setInterval(() => {
+            if(this.RepeatTwoFactor === 0) {
+                this.is_allowed_code_repeat = true;
+                clearInterval(interval);
+            } else {
+                this.RepeatTwoFactor = this.RepeatTwoFactor - 1;
+            }
+        }, 1000);
+
+      },
+      onCodeInput(code) {
+        this.codeSign = code;
+        if(this.codeSign.length === 6) {
+            this.auth();
+        }
+      },
+
+      twoFactor() {
+        if(this.phoneNumber.replace(/\s/g, '').length < 10) {
+            alert('Недостаточно цифр');
+            return false;
+        }
         
-          let self = this;
-          db.country.forEach(function(item) {
-              if(self.phoneCode === '+' + item.phonecode) {
-                  self.current = item;
-              }
-          });  
-          this.is_show_auto = false;    
-      },
-        repeatTimerStart() {
-          let self = this;
-          this.RepeatTwoFactor = 60;
-          this.is_allowed_code_repeat = false;
-          let interval = setInterval(function() {
-              if(self.RepeatTwoFactor === 0) {
-                  self.is_allowed_code_repeat = true;
-                  clearInterval(interval);
-              } else {
-                  self.RepeatTwoFactor = self.RepeatTwoFactor - 1;
-              }
-          }, 1000);
+      this.$store.dispatch('GET_AUTH', {
+        phone: this.phoneCode + this.phoneNumber
+      })
 
-      },
-        onCodeInput(code) {
-          this.codeSign = code;
-          if(this.codeSign.length === 6) {
-              this.auth();
-          }
-        },
+        // this.$f7.dialog.preloader('');
 
-        twoFactor() {
-          if(this.phoneNumber.replace(/\s/g, '').length < 10) {
-              alert('Недостаточно цифр');
-              return false;
-          }
-          
-          this.$f7.dialog.preloader('');
+        // axios.post('http://dev.twidy.ru/api/methods/auth?', {
+        //   phone: this.phoneCode + this.phoneNumber
+        // })
+        //   .then( resp => {
+        //     console.log(resp)
+        //     this.$f7.dialog.close();
 
-          axios.post('http://dev.twidy.ru/api/methods/auth?', {
-            phone: this.phoneCode + this.phoneNumber
-          })
-            .then( resp => {
-              console.log(resp)
-              this.$f7.dialog.close();
+        //     this.is_need_code = true;
+        //     this.identification = resp.data.result.i;
+        //     this.repeatTimerStart();
+            
+        //   })
+        //   .catch( e => {
+        //     this.$f7.dialog.close();
+        //     console.log(e)
+        //   })
 
-              this.is_need_code = true;
-              this.identification = resp.data.result.i;
-              this.repeatTimerStart();
-              
-            })
-            .catch( e => {
-              this.$f7.dialog.close();
-              console.log(e)
-            })
+        // request.post("/auth/login/twofactor.request/", {
+        //     phoneNumber: this.phoneCode + this.phoneNumber
+        // }, (r) => {
+            
+        //     this.$f7.dialog.close();
 
-          // request.post("/auth/login/twofactor.request/", {
-          //     phoneNumber: this.phoneCode + this.phoneNumber
-          // }, (r) => {
-              
-          //     this.$f7.dialog.close();
+        //     that.is_need_code = true;
+        //     that.identification = r.identification;
+        //     that.repeatTimerStart();
+            
+        //     document.getElementById("codeSignInput").focus();
+            
+        // }, (e) => {
+        //     this.$f7.dialog.close();
+        // })
 
-          //     that.is_need_code = true;
-          //     that.identification = r.identification;
-          //     that.repeatTimerStart();
-              
-          //     document.getElementById("codeSignInput").focus();
-              
-          // }, (e) => {
-          //     this.$f7.dialog.close();
-          // })
-          
       },
       SelectCountry(country) {
-          
           this.phoneNumber = '';
           this.current = country;
           this.phoneCode = country.phonecode;
           this.phoneNumber = '';
           this.getPhoneMask();
-
       },
     },
 
     mounted() {
-      // this.items = db.country;
-
       this.$store.dispatch("GET_COUNTRY_LIST")
-
-      //  {}, (r) => {
-      //     db.country.forEach((item) => {
-      //         if(item.sortname === r.countryCode) {
-      //             this.SelectCountry(item);
-      //             return;
-      //         }
-      //     });
-      // });
+        .then( resp => {
+          this.countrys = resp.country;
+          return this.$store.dispatch("GET_LOCATION")
+        })
+        .then( location => {
+          this.countrys.forEach( country => {
+            if(country.name === location.name) {
+              this.SelectCountry(country);
+              return;
+            }
+          })
+        })
     }
 }
 </script>

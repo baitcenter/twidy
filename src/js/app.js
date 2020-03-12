@@ -1,5 +1,6 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
+import store from '../store/'
+
 import Framework7 from 'framework7/framework7-lite.esm.bundle.js';
 import Framework7Vue from 'framework7-vue/framework7-vue.esm.bundle.js';
 import 'framework7/css/framework7.bundle.css';
@@ -27,7 +28,6 @@ Framework7.use(Framework7Vue);
 
 Vue.use(VueTheMask);
 Vue.use(VueFlex);
-Vue.use(Vuex);
 
 Vue.component('MoneyFormat', MoneyFormat);
 Vue.component("VueBankCard", VueBankCard);
@@ -37,6 +37,7 @@ import notify from "@/components/modules/notify/"
 new Vue({
   el: '#app',
   render: (h) => h(App),
+  store,
   data() {
     return {
       notify
