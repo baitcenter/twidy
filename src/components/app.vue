@@ -1,7 +1,7 @@
 <template>
     <f7-app :params="f7params">        
         <f7-view main
-          url='/login'
+          url='/authorization'
         ></f7-view>     
     </f7-app>
 </template>

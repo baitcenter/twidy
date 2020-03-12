@@ -1,539 +1,454 @@
 <template>
-  <f7-page class="welcome">
-    <f7-swiper ref="swiper" id="swiper" :params="options" class="home-silder" pagination>
-      <f7-swiper-slide v-for='slide in slides' :key="slide.text">
+    <div>
        
-        <div class="skip">
-          <span>Skip</span>
+            <f7-popup ref="country" @popup:open='countryPopupOpened = true;' @popup:opened="$refs.searchbar.enable(); " @popup:close="countryPopupOpened = false;" push >
+                
+                <f7-page>
+                    <f7-searchbar
+                          @searchbar:disable="$refs.country.close();"
+                          ref="searchbar"
+                          disable-button-text="Отмена"
+                          placeholder="Поиск страны"
+                          search-container=".country-list"
+                          :backdrop="false"
+                          :clear-button="true"
+                        >
+                    </f7-searchbar>
+                    
+                    <f7-list class="country-list" v-if="countryPopupOpened">
+                        <f7-list-item v-for="c in db.country" :key="c" link no-chevron @click="phoneCode = `${c.phonecode}`; current = c; $refs.searchbar.disable();">
+                            <div slot="title">
+                                {{ c.name }}
+                            </div>
+                            <div slot="after">
+                                +{{ c.phonecode }}
+                            </div>
+                        </f7-list-item>
+                    </f7-list>
+                    
+                </f7-page>
+                
+            </f7-popup>
+        
+            <div v-if="is_need_password">
+                <f7-block-title>
+                    Пароль
+                </f7-block-title>
+                <f7-block>
+                    <p>У Вас включена двухфакторная авторизация, пожалуйста, введите Ваш пароль.</p>
+                </f7-block>
+
+
+                <f7-list no-hairlines>
+                    <f7-list-item>
+                        <f7-input
+                        type="password"
+                        name="user_password"
+                        autocomplete="off"
+                        placeholder="Ваш пароль"
+                        input-id="passwordSignInput"
+                        @input="password = $event.target.value"
+                        :value="password"
+                        ></f7-input>
+                    </f7-list-item>
+                </f7-list>
+
+                <f7-button @click="auth()" fill large round style="margin: 0 5%;">
+                    <span>Войти</span>
+                </f7-button>
+            </div>
+            <div class="content" v-else-if="is_need_code">
+
+                <f7-block-title class="content__title" large>Код проверки</f7-block-title>
+                    <f7-block class="content__desc">
+                        <p> Мы отправили код проверки на указанный Вами номер телефона. </p>
+                    </f7-block>
+
+                    <f7-list class="content__input-code" no-hairlines>
+                        <f7-list-item>
+                            <f7-input
+                                class="code-input"
+                                type="tel"
+                                autofocus
+                                placeholder="Код проверки"
+                                v-mask="'####'"
+                                :value="codeSign"
+                                input-id="codeSignInput"
+                                inputStyle="letter-spacing: 30px; width: 100%; text-align: center; border-bottom: 1px solid rgba(140, 140, 182, 0.5)"
+                                @input="onCodeInput($event.target.value)"
+                            > 
+                            </f7-input>
+                        </f7-list-item>
+                    </f7-list>
+
+                    <div class='text-code'>
+                      <span>Неверный номер телефона?<a href="javascript:void(0)" @click="is_need_code = false"> Введите правильный</a></span>
+                        <span v-if="!is_allowed_code_repeat">Повторная отправка возможна через {{RepeatTwoFactor}} секунд.</span>
+                        <a v-else href="javascript:void(0)" @click="twoFactor()">Отправить код заново</a> 
+                    </div>
+
+            </div>
+        <div class="content" v-else>
+            <f7-block-title class="content__title" large> Авторизация </f7-block-title>
+                
+                <f7-block class="content__desc">
+                    Проверьте код страны и введите свой номер телефона.
+                </f7-block>
+
+                    <f7-list no-hairlines no-hairlines-between>
+                    <f7-list-item class="country-list" link @click="$refs.country.open();">
+                        <div v-if='current !== null' slot='title' >
+                           {{ current.name }}
+                        </div>
+                        <div v-else slot='title' >
+                            Выбрать страну
+                        </div>
+                    </f7-list-item>
+
+                    <f7-list-item  class="phone-list" v-if='phoneCode !== ""'>
+                        <f7-list-item-row>
+                            <f7-list-item-cell style="max-width: 15%; border-right: 1px solid rgba(0,0,0,0.1);">
+                                <f7-input 
+                                    type="tel"
+                                    :value="`+${phoneCode}`" 
+                                    v-mask="'+####'"
+                                    placeholder="+7"
+                                    inputStyle="text-align: center; color: #4E3F6F;"
+                                    @input="phoneCode = $event.target.value"
+                                    :disabled="true"
+                                > 
+                                </f7-input>
+                            </f7-list-item-cell>
+                            <f7-list-item-cell>
+                                <f7-input 
+                                    type="tel"
+                                    @input="phoneNumber = $event.target.value"
+                                    :value="phoneNumber" 
+                                    placeholder="Номер телефона"
+                                    :clear-button="true"
+                                    inputStyle="color: #4E3F6F;"
+                                    v-mask="'### ### ## ##'"
+                                > 
+                                </f7-input>
+                            </f7-list-item-cell>
+                        </f7-list-item-row>
+                    </f7-list-item>
+
+                </f7-list>
+        
+                <f7-block style="margin-left: 0!important; margin-right: 0!important " v-if='phoneNumber !== ""' > 
+                    <f7-button class="two-factor-btn" @click='twoFactor()' large fill round style="width: 100%;">
+                        Получить код проверки
+                    </f7-button> 
+                </f7-block>
         </div>
-          
-          <f7-block class="text-center">
-            
-            <div class="slide-image">
-              <img v-if="slide.visible" src="static/slides/1.png" class="img-responsive">
-            </div>
-
-            <div class="slide-desc">
-              
-              <div class="slide-desc__text">
-                <div class="slide-desc__text__title">
-                  <h2 v-show="slide.visible"> {{ slide.title }} </h2>
-                </div>
-                <div class="slide-desc__text__desc">
-                  <span v-show="slide.visible"> {{ slide.text }} </span>
-                </div>
-              </div>
-            </div>
-
-          </f7-block>
-      </f7-swiper-slide>
-    </f7-swiper>
-
-    <div class="slide-btn">
-      <div class="slide-btn__wrapper">
-        <f7-button class="slide-btn__wrapper__button" icon-f7="arrow_right" fill @click="nextSlide"></f7-button>
-      </div>
-    </div>  
-
-    <f7-popup 
-      :opened="!isCanShowContent"
-      backdrop 
-      push 
-      swipeToClose 
-      swipeHandler=".swipe-close-wrapper"
-      class="login-pop-up"
-      ref='loginPopup'
-      @popup:close="slideBack()"
-    >
-      <f7-page login-screen>
-
-          <div class="swipe-close-wrapper">
-              <div class="swipe-back-handler"></div>
-          </div>
-
-          <login-widget></login-widget>
-
-        </f7-page>
-    </f7-popup>
-  </f7-page>
+                     
+    </div>
 </template>
 
 <script>
-import LoginWidget from "../../../components/widgets/login-widget/index.vue";
+import keypad from '../../../components/widgets/input-number/index.vue'
+import axios from 'axios'
+import notify from "@/components/modules/notify/";
+import request from '@/components/modules/request/'
 
 export default {
-  name: '',
+  name: 'login-widget',
 
   components: {
-    'login-widget' : LoginWidget
+    'keypad': keypad
   },
 
   data() {
-    return  {
-      slide: { title: '', text: ''},
-      isCanShowContent: true,
-      isLoading: false,
-      slides: [
-          { title : '', text: 'Простой способ связаться с блогерами, медиа-звездами и экспертами.', image: '', visible: true, enter: 'fadeIn', leave: 'fadeOut'},
-          { title : 'Общайтесь с кумирами', text: 'Задавайте вопросы профессионалам, блогерам, звездам, спортсменам. Просто отправьте платное сообщение и получите быстрый и подробный ответ на Ваш вопрос.', image: '', visible: true, enter: 'fadeIn', leave: 'fadeOut'},
-          { title : 'Получайте уникальные видео', text: 'Вы можете заказать персонализированные видео-ролики от своих любимых знаменитостей, спортсменов или влиятельных лиц.', image: '', visible: true, enter: 'fadeIn', leave: 'fadeOut'},
-          { title : 'Зарабатывайте', text: 'Установите стоимость контакта с вами и получайте деньги за каждый ответ. Ведите платные каналы, делитесь уникальным контентом и зарабатывайте.', image: '', visible: true, enter: 'fadeIn', leave: 'fadeOut'},
-          { title : '', text: '', image: '', visible: false, enter: 'bounceIn', leave: 'zoomOut' }
-      ],
-      options: { 
-        slidesPerView: 1, 
-        spaceBetween: 0,
-        pagination: {
-          el: '.swiper-pagination',
-          type: 'bullets',
-        },
-        on: {
-          slideChange: () => {
-              
-            if(this.$refs.swiper.swiper.activeIndex === (this.slides.length - 1)) {
-                this.$f7.$(".login-sheet").css("min-height", '40%');
-                this.isCanShowContent = false;
-                this.isLoading = false;
-            } else {
-                this.isCanShowContent = true;
-                this.$f7.$(".login-sheet").css("min-height", '20%');
-            }
-            
-            this.slides.forEach((slide) => {
-                slide.visible = false; 
-            });
-            
-            this.slide = this.slides[this.$refs.swiper.swiper.activeIndex];
-            
-            setTimeout(() => {
-                this.slide.visible = true;
-            }, 200);
-              
-          }
-        }
-      }
+    return {
+      db: [],
+      countryPopupOpened: false,
+      RepeatTwoFactor: 60,
+      is_allowed_code_repeat: false,
+      phoneCode: "7",
+      phoneNumber: "",
+      password: "",
+      code: "",
+      codeSign: '',
+      keyPad: null,
+      mask: '+7 ### ### ## ##',
+      is_show_auto: true,
+      identification: "",
+      is_need_code: false,
+      current: null,
+      isLoginScreen: false,
+      is_already_submit: false,
+      is_need_password: false,
+      preview: null,
+      items: [],
+      vlData: {
+        items: [],
+      },
     }
   },
+    methods: {
+      auth() {
+          
+          if(this.is_already_submit) {
+              return;
+          } else {
+              this.is_already_submit = true;
+          }
+          
+          let self = this;
+          
+          this.$f7.dialog.preloader('');
+          
+          let CryptoJS = require("crypto-js");
+          let SHA1 = require("crypto-js/sha1");
+          
+          if(this.is_need_password) {
+              let password = SHA1(this.password).toString();
+          } else {
+              let password = null;
+          }
+          
+          
+          let $$ = this.$f7.$;
+          
+          $$("#codeSignInput").blur();
+          $$("#passwordSignInput").blur();
+          
+          request.post("/auth/login/", {
+              phoneNumber: this.phoneCode + this.phoneNumber,
+              code: this.codeSign,
+              identification: this.identification,
+              password: password
+          }, (response) => {
+              
+              request.setCookie("access_token", response.access_token, response.days);
+              request.setCookie("call", JSON.stringify({ id: response.call_id }), response.days);
 
-  methods: {
-                     
-    getCurrentTitle() {
-        if(this.$refs.swiper) {
-            return this.slides[this.$refs.swiper.swiper.activeIndex].title;
-        } else {
-            return '';
-        }
-    },
-    
-    slideBack() {
-      this.$refs.swiper.swiper.slidePrev();
-    },
-    
-    nextSlide() {
+              this.$f7.dialog.close();
+              this.is_already_submit = false;
+
+              this.$f7router.navigate("/", {
+                  clearPreviousHistory: true,
+                  animate: false
+              });
+              
+              this.$f7.popup.close(".login-pop-up");
+              this.$refs.passwordPopUp.close();
+              this.is_need_code = false;
+              
+          }, (e) => {
+              
+              this.$f7.dialog.close();
+              
+              this.is_already_submit = false;
+              
+              if(!e.responseData) {
+                  return;
+              }
+              
+              if(e.responseData.is_need_password) {
+                  this.is_need_password = true;
+                  this.isLoginScreen = false;
+                  this.is_need_code = false;
+                  this.$f7.popup.open(".is-need-password");
+                  this.preview = e.responseData.user;
+                  return;
+              }
+              
+                self.code = '';
+            
+              
+          });
+          
+      },
+      searchAll(query, items) {
+          const found = [];
+          for (let i = 0; i < items.length; i += 1) {
+            if (items[i].name.toLowerCase().indexOf(query.toLowerCase()) >= 0 || query.trim() === '') found.push(i);
+          }
+          return found; // return array with mathced indexes
+        },
+        renderExternal(vl, vlData) {
+          this.vlData = vlData;
+      },
+      getPhoneMask() {
         
-        if(!this.$refs.swiper.swiper.isEnd) {
-            this.$refs.swiper.swiper.slideNext();
-        } else {
+          let mask = '+' + this.phoneCode.toString();
+          mask = mask + ' ### ###-##-##';
+          this.mask = mask;
+          return mask;
+              
+      },
+      country() {
+        
+          let self = this;
+          db.country.forEach(function(item) {
+              if(self.phoneCode === '+' + item.phonecode) {
+                  self.current = item;
+              }
+          });  
+          this.is_show_auto = false;    
+      },
+        repeatTimerStart() {
+          let self = this;
+          this.RepeatTwoFactor = 60;
+          this.is_allowed_code_repeat = false;
+          let interval = setInterval(function() {
+              if(self.RepeatTwoFactor === 0) {
+                  self.is_allowed_code_repeat = true;
+                  clearInterval(interval);
+              } else {
+                  self.RepeatTwoFactor = self.RepeatTwoFactor - 1;
+              }
+          }, 1000);
 
-            this.$f7router.navigate("/login", {
-                clearPreviousHistory: true
-            });
-        }
-            
+      },
+        onCodeInput(code) {
+          this.codeSign = code;
+          if(this.codeSign.length === 6) {
+              this.auth();
+          }
+        },
+
+        twoFactor() {
+          if(this.phoneNumber.replace(/\s/g, '').length < 10) {
+              alert('Недостаточно цифр');
+              return false;
+          }
+          
+          this.$f7.dialog.preloader('');
+
+          axios.post('http://dev.twidy.ru/api/methods/auth?', {
+            phone: this.phoneCode + this.phoneNumber
+          })
+            .then( resp => {
+              console.log(resp)
+              this.$f7.dialog.close();
+
+              this.is_need_code = true;
+              this.identification = resp.data.result.i;
+              this.repeatTimerStart();
+              
+            })
+            .catch( e => {
+              this.$f7.dialog.close();
+              console.log(e)
+            })
+
+          // request.post("/auth/login/twofactor.request/", {
+          //     phoneNumber: this.phoneCode + this.phoneNumber
+          // }, (r) => {
+              
+          //     this.$f7.dialog.close();
+
+          //     that.is_need_code = true;
+          //     that.identification = r.identification;
+          //     that.repeatTimerStart();
+              
+          //     document.getElementById("codeSignInput").focus();
+              
+          // }, (e) => {
+          //     this.$f7.dialog.close();
+          // })
+          
+      },
+      SelectCountry(country) {
+          
+          this.phoneNumber = '';
+          this.current = country;
+          this.phoneCode = country.phonecode;
+          this.phoneNumber = '';
+          this.getPhoneMask();
+
+      },
     },
-    
-    getOsVersion() {
-            let unknown = '-';
 
-            let nVer = navigator.appVersion;
-            let nAgt = navigator.userAgent;
-            let browser = navigator.appName;
-            let version = '' + parseFloat(navigator.appVersion);
-            let majorVersion = parseInt(navigator.appVersion, 10);
-            let nameOffset, verOffset, ix;
+    mounted() {
+      // this.items = db.country;
 
-            // Opera
-            if ((verOffset = nAgt.indexOf('Opera')) != -1) {
-                browser = 'Opera';
-                version = nAgt.substring(verOffset + 6);
-                if ((verOffset = nAgt.indexOf('Version')) != -1) {
-                    version = nAgt.substring(verOffset + 8);
-                }
-            }
-            // Opera Next
-            if ((verOffset = nAgt.indexOf('OPR')) != -1) {
-                browser = 'Opera';
-                version = nAgt.substring(verOffset + 4);
-            }
-            // Edge
-            else if ((verOffset = nAgt.indexOf('Edge')) != -1) {
-                browser = 'Microsoft Edge';
-                version = nAgt.substring(verOffset + 5);
-            }
-            // MSIE
-            else if ((verOffset = nAgt.indexOf('MSIE')) != -1) {
-                browser = 'Microsoft Internet Explorer';
-                version = nAgt.substring(verOffset + 5);
-            }
-            // Chrome
-            else if ((verOffset = nAgt.indexOf('Chrome')) != -1) {
-                browser = 'Chrome';
-                version = nAgt.substring(verOffset + 7);
-            }
-            // Safari
-            else if ((verOffset = nAgt.indexOf('Safari')) != -1) {
-                browser = 'Safari';
-                version = nAgt.substring(verOffset + 7);
-                if ((verOffset = nAgt.indexOf('Version')) != -1) {
-                    version = nAgt.substring(verOffset + 8);
-                }
-            }
-            // Firefox
-            else if ((verOffset = nAgt.indexOf('Firefox')) != -1) {
-                browser = 'Firefox';
-                version = nAgt.substring(verOffset + 8);
-            }
-            // MSIE 11+
-            else if (nAgt.indexOf('Trident/') != -1) {
-                browser = 'Microsoft Internet Explorer';
-                version = nAgt.substring(nAgt.indexOf('rv:') + 3);
-            }
-            // Other browsers
-            else if ((nameOffset = nAgt.lastIndexOf(' ') + 1) < (verOffset = nAgt.lastIndexOf('/'))) {
-                browser = nAgt.substring(nameOffset, verOffset);
-                version = nAgt.substring(verOffset + 1);
-                if (browser.toLowerCase() == browser.toUpperCase()) {
-                    browser = navigator.appName;
-                }
-            }
-            // trim the version string
-            if ((ix = version.indexOf(';')) != -1) version = version.substring(0, ix);
-            if ((ix = version.indexOf(' ')) != -1) version = version.substring(0, ix);
-            if ((ix = version.indexOf(')')) != -1) version = version.substring(0, ix);
+      // this.$store.dispatch("GET_COUNTRY_LIST")
 
-            majorVersion = parseInt('' + version, 10);
-            if (isNaN(majorVersion)) {
-                version = '' + parseFloat(navigator.appVersion);
-                majorVersion = parseInt(navigator.appVersion, 10);
-            }
-
-            // mobile version
-            let mobile = /Mobile|mini|Fennec|Android|iP(ad|od|hone)/.test(nVer);
-
-            // cookie
-            let cookieEnabled = (navigator.cookieEnabled) ? true : false;
-
-            if (typeof navigator.cookieEnabled == 'undefined' && !cookieEnabled) {
-                document.cookie = 'testcookie';
-                cookieEnabled = (document.cookie.indexOf('testcookie') != -1) ? true : false;
-            }
-
-            // system
-            let os = unknown;
-            let clientStrings = [
-                {s:'Windows 10', r:/(Windows 10.0|Windows NT 10.0)/},
-                {s:'Windows 8.1', r:/(Windows 8.1|Windows NT 6.3)/},
-                {s:'Windows 8', r:/(Windows 8|Windows NT 6.2)/},
-                {s:'Windows 7', r:/(Windows 7|Windows NT 6.1)/},
-                {s:'Windows Vista', r:/Windows NT 6.0/},
-                {s:'Windows Server 2003', r:/Windows NT 5.2/},
-                {s:'Windows XP', r:/(Windows NT 5.1|Windows XP)/},
-                {s:'Windows 2000', r:/(Windows NT 5.0|Windows 2000)/},
-                {s:'Windows ME', r:/(Win 9x 4.90|Windows ME)/},
-                {s:'Windows 98', r:/(Windows 98|Win98)/},
-                {s:'Windows 95', r:/(Windows 95|Win95|Windows_95)/},
-                {s:'Windows NT 4.0', r:/(Windows NT 4.0|WinNT4.0|WinNT|Windows NT)/},
-                {s:'Windows CE', r:/Windows CE/},
-                {s:'Windows 3.11', r:/Win16/},
-                {s:'Android', r:/Android/},
-                {s:'Open BSD', r:/OpenBSD/},
-                {s:'Sun OS', r:/SunOS/},
-                {s:'Linux', r:/(Linux|X11)/},
-                {s:'iOS', r:/(iPhone|iPad|iPod)/},
-                {s:'Mac OS X', r:/Mac OS X/},
-                {s:'Mac OS', r:/(MacPPC|MacIntel|Mac_PowerPC|Macintosh)/},
-                {s:'QNX', r:/QNX/},
-                {s:'UNIX', r:/UNIX/},
-                {s:'BeOS', r:/BeOS/},
-                {s:'OS/2', r:/OS\/2/},
-                {s:'Search Bot', r:/(nuhk|Googlebot|Yammybot|Openbot|Slurp|MSNBot|Ask Jeeves\/Teoma|ia_archiver)/}
-            ];
-            for (let id in clientStrings) {
-                let cs = clientStrings[id];
-                if (cs.r.test(nAgt)) {
-                    os = cs.s;
-                    break;
-                }
-            }
-
-            let osVersion = unknown;
-
-            if (/Windows/.test(os)) {
-                osVersion = /Windows (.*)/.exec(os)[1];
-                os = 'Windows';
-            }
-
-            switch (os) {
-                case 'Mac OS X':
-                    osVersion = /Mac OS X (10[\.\_\d]+)/.exec(nAgt)[1];
-                    break;
-
-                case 'Android':
-                    osVersion = /Android ([\.\_\d]+)/.exec(nAgt)[1];
-                    break;
-
-                case 'iOS':
-                    osVersion = /OS (\d+)_(\d+)_?(\d+)?/.exec(nVer);
-                    osVersion = osVersion[1] + '.' + osVersion[2] + '.' + (osVersion[3] | 0);
-                    break;
-            }
-
-            // flash (you'll need to include swfobject)
-            /* script src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js" */
-            let flashVersion = 'no check';
-            if (typeof swfobject != 'undefined') {
-                let fv = swfobject.getFlashPlayerVersion();
-                if (fv.major > 0) {
-                    flashVersion = fv.major + '.' + fv.minor + ' r' + fv.release;
-                }
-                else  {
-                    flashVersion = unknown;
-                }
-            }
-
-        return {
-            browser: browser,
-            browserVersion: version,
-            browserMajorVersion: majorVersion,
-            mobile: mobile,
-            os: os,
-            osVersion: osVersion,
-            cookies: cookieEnabled,
-            flashVersion: flashVersion
-        };
-    },
-  },
-
-        mounted() {
- 
-            // require("fingerprintjs2").get({}, (components) => {
-
-            //     let d = this.getOsVersion();
-
-            //     let keys = ['timezone', 'timezone_offset'];
-
-            //      request.customRequestHeaders = {
-            //          'device' : this.$f7.device.ios ? 'iPhone' : 'Android' ,
-            //          'op_system' : d.os,
-            //          'op_version' : d.osVersion.replace("_", '.'),
-            //          'app_version' : '1.0.'
-            //      };
-
-            //      components.forEach(function(item) {
-
-            //          if(keys.indexOf(item.key) >= 0) {
-            //              request.customRequestHeaders[item.key] = item.value;
-            //          }
-
-            //      });
-
-
-            //  });   
-             
-             
-             setTimeout(() => {
-                 this.$f7.$(".login-sheet").css("bottom", 0);
-                 this.slide = this.slides[0];
-                 this.slide.visible = true;
-             }, 1000);
-            
-        }
+      //  {}, (r) => {
+      //     db.country.forEach((item) => {
+      //         if(item.sortname === r.countryCode) {
+      //             this.SelectCountry(item);
+      //             return;
+      //         }
+      //     });
+      // });
+    }
 }
-
 </script>
 
-<style lang="scss" >
-  .welcome {
-    background: #F2F2FE;
-    padding: 15px;
-    position: relative;
-    
-      .page-content {
-        overflow: hidden;
-        overflow-x: hidden;
-      }
-  }
-
-  .home-silder {
-    height: 100%;
-    border-radius: 35px;
-    position: relative;
-    background: #503EA9;
-    overflow: hidden;
-    overflow-x: hidden;
-  }
-
-  .swiper-pagination-bullet-active {
-    width: 20px;
-    background: white;
-    border-radius: 8px;
-  }
-
-  .skip {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-
-      span {
-        font-style: normal;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 17px;
-        color: #FFFFFF;
-      }
-  }
-
-  .text-center {
-    height: 90vh;
+<style lang="scss">
+  .content {
+    text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    overflow: hidden;
+
+      &__title {
+        font-style: normal;
+        font-weight: 300;
+        font-size: 36px;
+        line-height: 38px;
+        color: #4E3F6F;
+      }
+
+      &__desc {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 18px;
+        line-height: 21px;
+        color: #4E3F6F;
+      }
   }
 
-  .slide-image {
-    height: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .country-list {
+    border-top: 1px solid rgba(140,140,182,0.25);
+    border-bottom: 1px solid rgba(140,140,182,0.25);
+    color: #4E3F6F;
   }
 
-  .slide-desc {
-    height: 50%;
-    display: flex;
-    margin-bottom: 50px;
-    padding: 10px;
-    position: relative;
-    
-    &__text {
-      width: 70%;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      text-align: left;
+  .phone-list {
+    border-bottom: 1px solid rgba(140,140,182,0.25);
+    .item-content {
+      .item-inner {
+        padding-top: 0;
+        padding-bottom: 0;
 
-        &__title {
-          margin-bottom: 10px;
-
-          h2 {
-            font-style: normal;
-            font-weight: bold;
-            font-size: 2em;
-            line-height: 30px;
-            color: #FFFFFF;
-            margin: 0
-          }
-        }
-
-        &__desc {
-          min-height: 35%;
-          text-align: left;
-          span {
-            font-style: normal;
-            font-weight: normal;
-            font-size: 18px;
-            line-height: 21px;
-            color: #FFFFFF;
-          }
-        }
-    }
-  }
-
-  .slide-btn {
-      position: absolute;
-      background: url('/static/slides/union.svg') no-repeat center;
-      z-index: 9999;
-      width: 70px;
-      height: 200px;
-      top: 60%;
-      right: -2%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      &__wrapper {
-
-          &__button {
-            background: #503EA9;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            position: relative;
-
-              .f7-icons {
-                position: absolute;
-                top: 10px;
-                left: 10px;
-              }
+          &::after {
+            content: url()
           }
       }
     }
-
-  @media (min-width: 768px) {
-    .slide-desc__text__title {
-      h2 {
-        font-size: 5em;
-        line-height: 1em;
-      }
-    }
-    .slide-desc__text__desc {
-      span {
-        font-size: 2em;
-        line-height: 1.2em;
-      }
-    }
-    .slide-image {
-      img {
-        width: 60%
-      }
-    }
-    .skip {
-      position: absolute;
-      top: 40px;
-      right: 40px;
-
-        span {
-          font-style: normal;
-          font-weight: 500;
-          font-size: 2.2em;
-          line-height: 17px;
-          color: #FFFFFF;
-        }
-    }
   }
-  @media (min-width: 1024px) {
-    .slide-desc__text__title {
-      h2 {
-        font-size: 6em;
-        line-height: 1em;
-      }
-    }
-    .slide-desc__text__desc {
-      span {
-        font-size: 3em;
-        line-height: 1.2em;
+
+  .two-factor-btn {
+    background: #615DFA;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-size: 14px;
+  }
+
+  .code-input {
+    input {
+      font-size: 18px;
+      color: #4E3F6F;
+      letter-spacing: 0.5em;
+
+      &::placeholder {
+        font-size: 18px;
+        letter-spacing: 5px;
+        color: #8C8CB6;
+        opacity: 0.5;
       }
     }
   }
 
-  .login-pop-up {
-    border-top-left-radius: 35px;
-    border-top-right-radius: 35px;
+  .text-code {
+    padding: 0 5%;
+    font-size: 12px;
+    color: #8C8CB6;
   }
-
-  .popup-backdrop {
-    background: #F2F2FE;
-  }
-
 </style>
