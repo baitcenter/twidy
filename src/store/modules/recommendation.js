@@ -37,7 +37,6 @@ export default {
         return axios.get('http://dev.twidy.ru/api/methods/explore?')
           .then( resp => {
             ctx.commit('get_explore', resp.data.result)
-            console.log(resp.data.result)
           })
       },
 
@@ -45,7 +44,6 @@ export default {
         return axios.get(`http://dev.twidy.ru/api/methods/explore.next?next_max_id=${id}`)
           .then( resp => {
             ctx.commit('get_explore_next', resp.data.result)
-            console.log(resp.data.result)
           })
       }
     },

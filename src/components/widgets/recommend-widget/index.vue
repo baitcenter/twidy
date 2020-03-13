@@ -8,7 +8,7 @@
         </div>
         <div class="recommend__widget__recommend-user__biogr">
             <p class="recommend__widget__recommend-user__biogr__title">
-              {{item.firstName}}
+              <span v-html="item.firstName"></span> <span v-html="item.lastName"></span>
             </p>
             <p class="recommend__widget__recommend-user__biogr__text">{{item.biography.length > 50 ? item.biography.slice(0, 50) + '…' : item.biography}}</p>
         </div>
@@ -17,18 +17,7 @@
         </div>
 
       </div>
-        <!-- <div class="card card-style-2" style="margin-top: 55px;">
-          <div class="card-image-container">
-              <img class="card-image" :src="item.photo" alt="">
-          </div>
-          <div class="card-infos">
-            <div v-if="item.industry" class="card-category">{{ item.industry }}</div>
-            <h2 class="card-title">{{ item.firstName }} {{ item.lastName }}</h2>
-            <p v-if="item.biography" class="card-description">
-                {{ item.biography.slice(0,125) }}<span v-if="item.biography.length > 125">...</span>
-            </p>
-          </div>
-        </div> -->
+      
     </f7-link>
 </template>
 

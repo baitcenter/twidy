@@ -1,5 +1,4 @@
 <template>
-<!-- :href="`/${item.domain}`" -->
     <f7-link no-link-class :route-props="{ User: item }">
         <div class="card card-style-2" style="margin-top: 55px;">
           <div class="card-image-container">
