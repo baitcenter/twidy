@@ -10,29 +10,35 @@
         class="discover"
     >
 
-        <f7-navbar class="discover__recommend__navbar" title="Рекомендации" large title-large="Рекомендации" large-transparent></f7-navbar>
-        
+        <f7-block-title class="discover__recommend__navbar" large large-transparent>
+          <p>Рекомендации</p>
+        </f7-block-title>
+
         <div class="discover__recommend__content">
 
-          <f7-swiper v-if="exploreData.people.length > 0" :params="{ slidesPerView: 'auto', centeredSlides: true, spaceBetween: 30 }">
-            <f7-swiper-slide v-for="item in exploreData.people.slice(0,10)">
+          <!-- <f7-swiper v-if="peopleData.length > 0" :params="{ slidesPerView: 'auto', centeredSlides: true, spaceBetween: 30 }">
+            <f7-swiper-slide v-for="item in peopleData.slice(0, 7)" :key="item.id">
               <user-widget :item="item"></user-widget>
             </f7-swiper-slide>
-          </f7-swiper>
+          </f7-swiper> -->
 
-          <user-widget :items="exploreData.people.slice(10, 15)"></user-widget>
+          <!-- <user-widget :items="peopleData.slice(7, 15)"></user-widget>
           
           <f7-block>
-              <user-widget v-for="item in exploreData.people.slice(15,17)" :item="item"></user-widget>
+              <user-widget v-for="item in peopleData.slice(15,17)" :item="item" :key="item.id"></user-widget>
           </f7-block>
 
-            <user-widget :items="exploreData.people.slice(17, 30)"></user-widget>
+            <user-widget :items="peopleData.slice(17, 30)"></user-widget>
             
             <f7-block>
-              <user-widget v-for="item in exploreData.people.slice(30,31)" :item="item"></user-widget>
+              <user-widget v-for="item in peopleData.slice(30,31)" :item="item" :key="item.id"></user-widget>
           </f7-block>
 
-          <user-widget :items="exploreData.people.slice(31)"></user-widget>
+          <user-widget :items="peopleData.slice(31)"></user-widget> -->
+
+          
+          <recommend-widget v-for="item in peopleItems" :key="item.id" :item="item"></recommend-widget>
+
 
         </div>
          
@@ -40,27 +46,34 @@
 </template>
 
 <script>
-
-// import explore from '@/components/modules/explore'
 import UserWidget from '../../components/widgets/user-widget/'
+import RecommendWidget from '../../components/widgets/recommend-widget/index.vue'
 
 export default {
-    name: '',
+    name: 'discover',
 
     components: {
-      UserWidget
+      UserWidget, RecommendWidget
     },
 
     data() {
       return {
         allowInfinite: true,
-        showPreloader: false //true tyt nado
+        showPreloader: true
       }
     },
 
     computed: {
-      exploreData() {
-        return !this.$store.getters.getExploreData ? [] : this.$store.getters.getExploreData
+      peopleData() {
+        return !this.$store.getters.getPeopleData ? [] : this.$store.getters.getPeopleData
+      },
+
+      peopleItems() {
+        return !this.$store.getters.getPeopleItems ? [] : this.$store.getters.getPeopleItems
+      },
+
+      nextMaxId() {
+        return !this.$store.getters.getNextMaxId ? null : this.$store.getters.getNextMaxId
       }
     },
  
@@ -70,24 +83,26 @@ export default {
           return;
         }
         
-        if(this.exploreData.people.length > 50) {
+        if(peopleItems.length > 50) {
           this.showPreloader = false;
           this.allowInfinite = false;
           return;
         }
         
         this.allowInfinite = false;
-        
-        // explore.next(() => {
-        //   this.allowInfinite = true;
-        // });
-          
-      },
+
+        this.$store.dispatch('GET_EXPLORE_NEXT', this.nextMaxId)
+          .then( () => {
+            this.showPreloader = false;
+            this.allowInfinite = true
+          })
+      }
     },
 
     mounted() {
-
-      this.$store.dispatch('getData')
+      this.showPreloader = true;
+      this.$store.dispatch('GET_EXPLORE')
+        .then( () => this.showPreloader = false)
 
       // if(this.exploreData.people.length === 0) {
       //   explore.get(() => {});
@@ -110,16 +125,18 @@ export default {
     &__recommend__navbar {
       color: #4E3F6F;
       font-size: 24px;
+      margin-top: 30px;
+      margin-left: 30px;
+        p {
+          margin: 0
+        }
     }
 
     &__recommend__content {
-      height: 300px;
+      min-height: 100%;
       border-radius: 40px 40px 0px 0px;
       background: #FFFFFF;
-
-        div {
-          margin-top: 0!important
-        }
+      padding: 30px;
     }
   }
 </style>

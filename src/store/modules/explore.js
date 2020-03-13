@@ -2,18 +2,24 @@ import axios from 'axios'
 
 export default {
     state: {
-      explore: {
-        industry:  [],
-        channels: [],
-        people: [],
-        same: [],
-        funds: [],
-        hashtags: [],
-      }
+      people: null,
+      peopleItems: null,
+      next_max_id: null,
+      hashtags: null
     },
 
     mutations: {
+      get_explore(state, resp) {
+        state.people = resp.people;
+        state.peopleItems = resp.people.items;
+        state.next_max_id = resp.people.next_max_id;
+        state.hashtags = resp.hashtags;
+      },
 
+      get_explore_next(state, resp) {
+        state.peopleItems.push(resp.people.items);
+        state.next_max_id = resp.people.next_max_id;
+      }
     },
 
     actions: {
@@ -25,17 +31,36 @@ export default {
         localStorage.setItem(key, value)
       },
 
-      getData(ctx) {
+      GET_EXPLORE(ctx) {
         return axios.get('http://dev.twidy.ru/api/methods/explore?')
           .then( resp => {
+            ctx.commit('get_explore', resp.data.result)
             console.log(resp.data.result)
           })
+      },
+
+      GET_EXPLORE_NEXT(ctx, id) {
+        return axios.get(`http://dev.twidy.ru/api/methods/explore.next?next_max_id=${id}`)
+          .then( resp => console.log(resp) )
       }
     },
 
+
     getters: {
-      getExploreData(state) {
-        return state.explore
+      getPeopleData(state) {
+        return state.people
+      },
+
+      getPeopleItems(state) {
+        return state.peopleItems
+      },
+
+      getHashtags(state) {
+        return state.hashtags
+      },
+
+      getNextMaxId(state) {
+        return state.next_max_id
       },
 
       getCacheItem(state) {
