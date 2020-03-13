@@ -17,7 +17,9 @@ export default {
       },
 
       get_explore_next(state, resp) {
-        state.peopleItems.push(resp.people.items);
+        resp.people.items.forEach( item => {
+          state.peopleItems.push(item)
+        })
         state.next_max_id = resp.people.next_max_id;
       }
     },
@@ -41,7 +43,10 @@ export default {
 
       GET_EXPLORE_NEXT(ctx, id) {
         return axios.get(`http://dev.twidy.ru/api/methods/explore.next?next_max_id=${id}`)
-          .then( resp => console.log(resp) )
+          .then( resp => {
+            ctx.commit('get_explore_next', resp.data.result)
+            console.log(resp.data.result)
+          })
       }
     },
 

@@ -10,9 +10,6 @@
         class="discover"
     >
 
-        <f7-block-title class="discover__recommend__navbar" large large-transparent>
-          <p>Рекомендации</p>
-        </f7-block-title>
 
         <div class="discover__recommend__content">
 
@@ -36,6 +33,11 @@
 
           <user-widget :items="peopleData.slice(31)"></user-widget> -->
 
+          <category-widget></category-widget>
+
+          <f7-block-title class="discover__recommend__navbar" large large-transparent>
+            <p>Рекомендации</p>
+          </f7-block-title>
           
           <recommend-widget v-for="item in peopleItems" :key="item.id" :item="item"></recommend-widget>
 
@@ -46,14 +48,15 @@
 </template>
 
 <script>
-import UserWidget from '../../components/widgets/user-widget/'
+import UserWidget from '../../components/widgets/user-widget/index.vue'
 import RecommendWidget from '../../components/widgets/recommend-widget/index.vue'
+import CategoryWidget from '../../components/widgets/category-widget/index.vue'
 
 export default {
     name: 'discover',
 
     components: {
-      UserWidget, RecommendWidget
+      UserWidget, RecommendWidget, CategoryWidget
     },
 
     data() {
@@ -64,9 +67,6 @@ export default {
     },
 
     computed: {
-      peopleData() {
-        return !this.$store.getters.getPeopleData ? [] : this.$store.getters.getPeopleData
-      },
 
       peopleItems() {
         return !this.$store.getters.getPeopleItems ? [] : this.$store.getters.getPeopleItems
@@ -83,7 +83,7 @@ export default {
           return;
         }
         
-        if(peopleItems.length > 50) {
+        if(this.peopleItems.length > 50) {
           this.showPreloader = false;
           this.allowInfinite = false;
           return;
@@ -100,20 +100,16 @@ export default {
     },
 
     mounted() {
-      this.showPreloader = true;
+      // Стоит делать проверку пуст ли начальный массив людей (из кеша), если нет, то подгружать
       this.$store.dispatch('GET_EXPLORE')
         .then( () => this.showPreloader = false)
 
-      // if(this.exploreData.people.length === 0) {
-      //   explore.get(() => {});
-      // }
+      var location = window.location.hash.replace("#/", '');
       
-      // var location = window.location.hash.replace("#/", '');
-      
-      // if(location.length > 0) {
-      //   this.$f7router.navigate(`/${location}`);
-      //   window.location.href = '/#/';
-      // }
+      if(location.length > 0) {
+        this.$f7router.navigate(`/${location}`);
+        window.location.href = '/#/';
+      }
 
     }
 }
@@ -136,7 +132,7 @@ export default {
       min-height: 100%;
       border-radius: 40px 40px 0px 0px;
       background: #FFFFFF;
-      padding: 30px;
+      padding: 25px 25px 25px 25px;
     }
   }
 </style>

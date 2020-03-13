@@ -1,6 +1,5 @@
 <template>
-<!-- :href="`/${item.domain}`" -->
-    <f7-link class="recommend__widget" no-link-class :route-props="{ User: item }">
+    <f7-link class="recommend__widget" :href="`/${item.domain}`" no-link-class :route-props="{ User: item }">
 
       <div class="recommend__widget__recommend-user">
 

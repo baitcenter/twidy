@@ -44,3 +44,15 @@
   }
 
 </script>
+
+<style lang="scss">
+  .toolbar-inner {
+    background: #F7F8FA;
+
+    .tab-link {
+      .icon {
+        color: #8C8CB6;
+      }
+    }
+  }
+</style>
