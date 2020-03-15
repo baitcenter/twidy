@@ -10,8 +10,6 @@
         class="discover"
     >
 
-        <div class="discover__background-blur"></div>
-
         <div class="slide-content">
           <swiper-widget></swiper-widget>
         </div>
@@ -19,16 +17,18 @@
         <div class="discover__category__content">
           <f7-block-title class="discover__category__content__title">
             <span class="discover__category__content__title__text">Категории</span>
-            <span @click="getMoreCategory" class="discover__category__content__title__show-all">Показать все</span>
+            <span @click="getMoreCategory" class="discover__category__content__title__show-all">{{categoryShow}}</span>
           </f7-block-title>
 
           <div class="discover__category__content__widget">
 
-             <category-widget v-for="category in categorys" :key="category.id" :category="category"></category-widget>
+             <category-widget v-for="category in categorys.slice(0, caregoryRange)" :key="category.id" :category="category"></category-widget>
              
           </div>
 
         </div>
+
+        <div class="discover__background"></div>
 
 
         <f7-block-title class="discover__recommend__title">
@@ -59,7 +59,9 @@ export default {
     data() {
       return {
         allowInfinite: true,
-        showPreloader: true
+        showPreloader: true,
+        categoryShow: 'Показать все',
+        caregoryRange: 6 // Менять это число по нажатию "показать больше"
       }
     },
 
@@ -81,7 +83,13 @@ export default {
     methods: {
 
       getMoreCategory() {
-
+        if (this.caregoryRange === 6) {
+          this.categoryShow = 'Скрыть';
+          this.caregoryRange = this.categorys.length;
+        } else {
+          this.categoryShow = 'Показать все';
+          this.caregoryRange = 6
+        }
       },
 
       discoverNext() {
@@ -132,24 +140,15 @@ export default {
 
   .slide-content {
     margin-top: 150px;
+    position: relative;
+    z-index: 2;
   }
 
   .discover {
-    position: relative;
     height: 100vh;
     width: 100%;
-
-    &__background-blur {
-      position: absolute;
-      background: url('/static/durov.png') 50% 50% no-repeat; // наложение цвета на размытое фото тут https://ru.stackoverflow.com/questions/373574/%D0%9D%D0%B0%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D0%BE%D0%BB%D1%83%D0%BF%D1%80%D0%BE%D0%B7%D1%80%D0%B0%D1%87%D0%BD%D0%BE%D0%B3%D0%BE-%D1%86%D0%B2%D0%B5%D1%82%D0%B0-%D0%BD%D0%B0-background-image
-      background-size: 200%;
-      height: 500px;
-      width: 100%;
-      top: 0;
-      left: 0;
-      filter: blur(20px);
-    }
-
+    background: #F2F2FE;
+    position: relative;
 
     &__recommend__title {
       height: 40px;
@@ -159,11 +158,13 @@ export default {
     }
 
     &__category__content {
+      position: relative;
       min-height: 336px;
       margin-top: 10px;
       background: #F2F2FE;
       padding: 25px;
       border-radius: 40px 40px 0px 0px;
+      z-index: 2;
 
         &__title {
           margin: 0;
@@ -199,11 +200,21 @@ export default {
         }
     }
 
+    &__background {
+      background: red;
+      position: absolute;
+      height: 500px;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1
+    }
+
     &__recommend__content {
       min-height: 100%;
       border-radius: 40px 40px 0px 0px;
       background: #FFFFFF;
-      padding: 25px;
+      padding: 25px 25px 5px 25px;
     }
   }
 </style>
