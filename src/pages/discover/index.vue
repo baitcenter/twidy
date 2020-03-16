@@ -10,6 +10,18 @@
         class="discover"
     >
 
+        <div class="discover__search-widget">
+          <search-widget></search-widget>
+        </div>
+
+
+        <div class="discover__hashtags">
+          <f7-link no-link-class :href="`/hashtag`" >
+            <span v-for="hashtag in hashTags" :key="hashtag.value">#{{hashtag.value}} </span>
+          </f7-link>
+        </div>
+
+
         <div class="slide-content">
           <swiper-widget></swiper-widget>
         </div>
@@ -48,12 +60,13 @@
 import RecommendWidget from '../../components/widgets/recommend-widget/index.vue'
 import CategoryWidget from '../../components/widgets/category-widget/index.vue'
 import SwiperWidget from '../../components/widgets/swiper-widget/index.vue'
+import SearchWidget from '../../components/widgets/search-widget/index.vue'
 
 export default {
     name: 'discover',
 
     components: {
-      SwiperWidget, RecommendWidget, CategoryWidget
+      SearchWidget, SwiperWidget, RecommendWidget, CategoryWidget
     },
 
     data() {
@@ -66,7 +79,6 @@ export default {
     },
 
     computed: {
-
       categorys() {
         return !this.$store.getters.getCategorys ? [] : this.$store.getters.getCategorys
       },
@@ -77,6 +89,10 @@ export default {
 
       nextMaxId() {
         return !this.$store.getters.getNextMaxId ? null : this.$store.getters.getNextMaxId
+      },
+
+      hashTags() {
+        return !this.$store.getters.getHashtags ? [] : this.$store.getters.getHashtags
       }
     },
  
@@ -139,7 +155,7 @@ export default {
   }
 
   .slide-content {
-    margin-top: 150px;
+    margin-top: 20px;
     position: relative;
     z-index: 2;
   }
@@ -150,17 +166,36 @@ export default {
     background: #F2F2FE;
     position: relative;
 
+    &__search-widget {
+      position: relative;
+      z-index: 2;
+      padding: 0 30px;
+      margin-top: 20px;
+    }
+
+    &__hashtags {
+      margin-top: 15px;
+      padding: 0 30px;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+
+        span {
+          color: white;
+        }
+    }
+
     &__recommend__title {
       height: 40px;
       color: #4E3F6F;
       font-size: 24px;
-      margin: 32px 0 10px 30px;
+      margin: 10px 0 10px 30px;
     }
 
     &__category__content {
       position: relative;
       min-height: 336px;
-      margin-top: 10px;
+      margin-top: 20px;
       background: #F2F2FE;
       padding: 25px;
       border-radius: 40px 40px 0px 0px;
@@ -201,9 +236,9 @@ export default {
     }
 
     &__background {
-      background: red;
+      background: #534F5E;
       position: absolute;
-      height: 500px;
+      height: 600px;
       width: 100%;
       top: 0;
       left: 0;
