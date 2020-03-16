@@ -74,7 +74,7 @@ export default {
         allowInfinite: true,
         showPreloader: true,
         categoryShow: 'Показать все',
-        caregoryRange: 6 // Менять это число по нажатию "показать больше"
+        caregoryRange: 6
       }
     },
 
@@ -194,7 +194,7 @@ export default {
 
     &__category__content {
       position: relative;
-      min-height: 336px;
+      min-height: 300px;
       margin-top: 20px;
       background: #F2F2FE;
       padding: 25px;

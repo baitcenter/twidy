@@ -54,5 +54,11 @@
         color: #8C8CB6;
       }
     }
+
+    .tab-link-active {
+      .icon {
+        color: #6C53E7;
+      }
+    }
   }
 </style>

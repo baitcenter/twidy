@@ -10,7 +10,7 @@
             <p class="recommend__widget__recommend-user__biogr__title">
               <span v-html="item.firstName"></span> <span v-html="item.lastName"></span>
             </p>
-            <p class="recommend__widget__recommend-user__biogr__text">{{item.biography.length > 50 ? item.biography.slice(0, 50) + '…' : item.biography}}</p>
+            <p class="recommend__widget__recommend-user__biogr__text">{{item.biography.length > 50 ? item.biography.slice(0, 60) + '…' : item.biography}}</p>
         </div>
         <div class="recommend__widget__recommend-user__link">
           <i class="f7-icons">chevron_right</i>
