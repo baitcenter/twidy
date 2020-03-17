@@ -184,7 +184,6 @@ export default {
       vlData: {
         items: [],
       },
-
       countrys: [],
       location: null,
       country: ''

@@ -6,6 +6,7 @@ import call from './modules/call.js'
 import category from './modules/category.js'
 import recommendation from './modules/recommendation.js'
 import cache from './modules/cache.js'
+import user from './modules/user.js'
 
 Vue.use(Vuex)
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     call,
     category,
     recommendation,
-    cache
+    cache,
+    user
   }
 })

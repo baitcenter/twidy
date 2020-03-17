@@ -1,18 +1,20 @@
 <template>
 
-  <f7-page class="user-page safe-area" :style="{ backgroundImage: `url('${User.photo}')` }">
+  <f7-page class="user-page safe-area" 
+    :style="styleBackground"
+  >
 
     <f7-navbar back-link="" large large-transparent></f7-navbar>
 
     <div class="user-page__main">
 
       <div class="user-page__main__name">
-        <span>{{User.firstName}}</span><br>
-        <span>{{User.lastName}}</span>
+        <p>{{User.firstName}}</p>
+        <p>{{User.lastName}}</p>
       </div>
       <div class="user-page__main__biography">
         <span>@{{User.domain}} • Актёр</span>
-        <p>{{User.biography}}</p>
+        <p v-html="User.biography"></p>
       </div>
       <div class="user-page__main__actions">
         <f7-button class="user-page__main__actions__call" raised actions-open="#actions-callback">Связаться</f7-button>
@@ -23,36 +25,70 @@
           <f7-actions-group class="actions__group">
 
             <f7-actions-button class="actions__group-button" @click="BtnOne">
-              <div class="actions__group-button-icon">
-                <i class="f7-icons chat_bubble__icon">chat_bubble</i>
+              <div class="actions__group-button-icon actions__group-button-icon__chat">
+                <i class="f7-icons chat_bubble__icon actions__group-button-icon__i">chat_bubble</i>
               </div>
               <div class="actions__group-button-text">
-                <span>Сообщение</span>
-                <span>Напишите сообщение {{User.firstName}}</span>
+                <span class="actions__group-button-text__title">Сообщение</span>
+                <span class="actions__group-button-text__desc">Напишите сообщение {{User.firstName}}</span>
               </div>
             </f7-actions-button>
             <f7-actions-button class="actions__group-button" @click="BtnTwo">
-              <div class="actions__group-button-icon">
-                <i class="f7-icons phone__icon">phone</i>
+              <div class="actions__group-button-icon actions__group-button-icon__phone">
+                <i class="f7-icons phone__icon actions__group-button-icon__i">phone</i>
               </div>
               <div class="actions__group-button-text">
-                <span>Аудио звонок</span>
-                <span>Запишите сообщение {{User.firstName}}</span>
+                <span class="actions__group-button-text__title">Аудио звонок</span>
+                <span class="actions__group-button-text__desc">Запишите сообщение {{User.firstName}}</span>
               </div>
             </f7-actions-button>
             <f7-actions-button class="actions__group-button" @click="BtnTwo">
-              <div class="actions__group-button-icon">
-                <i class="f7-icons videocam__icon">videocam</i>
+              <div class="actions__group-button-icon actions__group-button-icon__videocam">
+                <i class="f7-icons videocam__icon actions__group-button-icon__i">videocam</i>
               </div>
               <div class="actions__group-button-text">
-                <span>Видео звонок</span>
-                <span>Запишите сообщение {{User.firstName}}</span>
+                <span class="actions__group-button-text__title">Видео звонок</span>
+                <span class="actions__group-button-text__desc">Запишите сообщение {{User.firstName}}</span>
               </div>
             </f7-actions-button>
 
           </f7-actions-group>
-          <f7-actions-group>
-            <f7-actions-button>Отмена</f7-actions-button>
+          <f7-actions-group class="actions__group">
+            <f7-actions-button class="actions__group-button__cancel">Отмена</f7-actions-button>
+          </f7-actions-group>
+        </f7-actions>
+
+        <f7-actions class="actions" id="actions-services">
+          <f7-actions-group class="actions__group">
+
+            <f7-actions-button class="actions__group-button" @click="BtnOne">
+              <div class="actions__group-button-icon actions__group-button-icon__videocam">
+                <i class="f7-icons videocam__icon actions__group-button-icon__i">videocam</i>
+              </div>
+              <div class="actions__group-button-text">
+                <span class="actions__group-button-text__title">Запрос видео ответа</span>
+              </div>
+            </f7-actions-button>
+            <f7-actions-button class="actions__group-button" @click="BtnTwo">
+              <div class="actions__group-button-icon actions__group-button-icon__phone">
+                <i class="f7-icons camera__icon actions__group-button-icon__i">camera</i>
+              </div>
+              <div class="actions__group-button-text">
+                <span class="actions__group-button-text__title">Запрос фото ответа</span>
+              </div>
+            </f7-actions-button>
+            <f7-actions-button class="actions__group-button" @click="BtnTwo">
+              <div class="actions__group-button-icon actions__group-button-icon__mic">
+                <i class="f7-icons mic__icon actions__group-button-icon__i">mic</i>
+              </div>
+              <div class="actions__group-button-text">
+                <span class="actions__group-button-text__title">Запрос аудио ответа</span>
+              </div>
+            </f7-actions-button>
+
+          </f7-actions-group>
+          <f7-actions-group class="actions__group">
+            <f7-actions-button class="actions__group-button__cancel">Отмена</f7-actions-button>
           </f7-actions-group>
         </f7-actions>
 
@@ -111,7 +147,7 @@
         </div>
 
         <div class="user-page__information__answers__wrapper">
-          <div class="user-page__information__answers__wrapper-video" v-for="i in 6" :key="i"></div>
+          <div class="user-page__information__answers__wrapper-video" v-for="i in 8" :key="i"></div>
         </div>
 
       </div>
@@ -131,20 +167,27 @@
         name: '',
 
         data() {
-            return {
-                timeline: [],
-                recomended: [1,2,4,8,16,32,64,128],
-                is_show_more: false,
-                cost: 0,
-                isLoading: false,
-                isUserDataLoading: false,
-                is_followed: false,
-                people: {
-                    isOpen: false,
-                    items: []
-                },
-                text: ''
+          return {
+            timeline: [],
+            recomended: [1,2,4,8,16,32,64,128],
+            is_show_more: false,
+            cost: 0,
+            isLoading: false,
+            isUserDataLoading: false,
+            is_followed: false,
+            people: {
+              isOpen: false,
+              items: []
+            },
+            text: '',
+            styleBackground: {
+              backgroundImage: `linear-gradient(0deg, rgba(78, 63, 111, 0.22), rgba(78, 63, 111, 0.22)),
+              linear-gradient(360deg, #110035 11.41%, rgba(20, 0, 64, 0) 49.1%), 
+              linear-gradient(180deg, #140040 -9.67%, rgba(20, 0, 64, 0) 11.99%), 
+              url('${this.User.photo}')`,
+
             }
+          }
         },
         props: {
             User: {
@@ -160,207 +203,11 @@
           BtnTwo() {
             console.log('нажали кнопку 2')
           }
+        },
+
+        mounted() {
+          this.$store.dispatch('GET_USER', this.User.id)
         }
-        // methods: {
-            
-        //     getRecomm() {
-                
-        //         if(this.people.isOpen) {
-        //             this.people.isOpen = false;
-        //             return;
-        //         }
-                
-                
-        //         if(this.people.items.length > 0) {
-        //             this.people.isOpen = true;
-        //             return;
-        //         }
-                
-        //         this.isLoading = true;
-                
-        //         request.get("/context/explore/industry/", {
-        //             industry: this.User.industry.id
-        //         }, (r) => {
-        //            this.isLoading = false; 
-        //            this.people.items = r.items;
-        //            this.people.isOpen = true;
-        //         }, (e) => {
-        //             this.isLoading = false;
-        //         });
-                
-                
-        //     },
-            
-        //     contact() {
-        //        if(!UserModel.checkAuthentication()) { 
-
-        //             this.$f7router.navigate("/authorization-pop-up");
-
-        //        } else if(!this.User.contact.is_price_set) {
-        //             this.$refs.contact.open();
-        //        } else {
-                   
-        //             if(this.User.dialog.is_exists) {
-        //                 dialog.chat.active[this.User.dialog.id] = dialog.chat.init(this.User.dialog.id);
-        //                 this.$f7.views.main.router.navigate("/chat" + this.User.dialog.id, {
-        //                     props: {
-        //                         listItem: {
-        //                             peer: {
-        //                                 id: this.User.id,
-        //                                 name: `${this.User.firstName} ${this.User.lastName}`,
-        //                                 image: this.User.photo,
-        //                             }
-        //                         }
-        //                     }
-        //                 });
-        //             } else {
-        //                 dialog.write(this.User.id, (r) => {
-        //                     dialog.chat.active[r.dialog_id] = dialog.chat.init(r.dialog_id);
-        //                     this.$f7.views.main.router.navigate("/chat" + r.dialog_id, {
-        //                         props: {
-        //                             listItem: {
-        //                                 peer: {
-        //                                     id: this.User.id,
-        //                                     name: `${this.User.firstName} ${this.User.lastName}`,
-        //                                     image: this.User.photo,
-        //                                 }
-        //                             }
-        //                         }
-        //                     });
-        //                 });  
-        //             }
-                    
-        //        }
-        //     },
-            
-        //     getAvatarStyle() {
-                
-        //         return {};
-                
-        //         var r = this.User.rgb[0];
-        //         var g = this.User.rgb[1];
-        //         var b = this.User.rgb[2];
-                
-        //         return {
-        //             "border" : `5px solid rgb(${r},${g},${b})`
-        //         }
-                
-                
-        //     },
-            
-        //     isShowSendBtn() {
-        //         if(this.text.length === 0 || this.cost === 0) {
-        //             return false;
-        //         } else {
-        //             return true;
-        //         }
-        //     },
-            
-        //     getUserModelBiography() {
-                
-        //         if(!this.User.biography) {
-        //             return '';
-        //         }
-                
-        //         var len = this.User.biography.length;
-                
-        //         if(len > 155) {
-        //             if(this.is_show_more) {
-        //                 return this.$root.utils.textFormat(this.User.biography);
-        //             } else {
-        //                 return this.$root.utils.textFormat(this.User.biography.slice(0,155) + '...');
-        //             }
-        //         } 
-                
-        //         return this.$root.utils.textFormat(this.User.biography);
-
-        //     },
-            
-        //     send() {
-                
-        //         if(!this.isShowSendBtn()) {
-        //             return;
-        //         }
-                
-        //         this.$f7.preloader.show();
-                
-        //          dialog.write(this.User.id, (r) => {
-                  
-        //             this.$refs.contact.close();
-                  
-        //             var chat = dialog.chat.init(r.dialog_id);
-       
-       
-        //             chat.cost = this.cost;
-        //             chat.text = this.text;
-        //             chat.type = 'message';
-                    
-        //             try {
-        //                 chat.send();
-        //             } catch (err) {
-        //                 console.log(err);
-        //             }
-                    
-        //             this.$f7.preloader.hide();
-                    
-        //             this.$root.notify.success("");
-       
-        //         }); 
-
-        //     },
-            
-        //     openMedia(media) {
-        //         this.$f7router.navigate("/timeline/media/", {
-        //           props: {
-        //               mediaItems: this.timeline,
-        //               initialIndex: media.id
-        //           }  
-        //         });
-        //     },
-            
-        //     beforein() {
-                
-        //         this.isUserDataLoading = true;
-                
-        //         request.get("/user/get/", {
-        //             id: this.User.id
-        //         }, (r) => {
-                    
-        //             Object.keys(r).forEach((key) => {
-        //                 if(r.hasOwnProperty(key)) {
-        //                     this.User[key] = r[key];
-        //                 }
-        //             });
-                    
-        //             this.is_followed = this.User.is_followed;
-        //             this.isUserDataLoading = false;
-                    
-        //         }, (e) => {
-                    
-        //             this.isUserDataLoading = false;
-                    
-        //         });
-                
-                
-        //         request.get('/user/timeline/get/', {
-        //             user_id: this.User.id
-        //         }, (r) => {
-        //             this.timeline = r.items;
-        //             setTimeout(() => {
-        //                 this.$f7.lazy.create(".user-page");
-        //             }, 200);
-        //         }, (e) => {
-                    
-        //         });
-                
-        //     }
-        // },
-
-        // mounted() {
-                        
-        //      this.beforein();
-            
-        // }
     }
 
 </script>
@@ -368,62 +215,51 @@
 <style lang="scss">
   .user-page {
     height: 100%;
-    background-repeat: no-repeat;
-    background-size: 100% 700px;
+    background-repeat: repeat-y;
+    background-size: 100% 400px;
 
       &__main {
-        margin-top: 250px;
+        margin-top: 0;
         padding: 0 30px 0 30px;
 
           &__name {
-            span {
+            p {
               color: #FFFFFF;
-              font-size: 36px;
+              font-size: 25px;
               line-height: 38px;
+              font-weight: 500;
+              margin: 0 0 0.01em 0;
             }
           }
 
           &__biography {
-            margin-top: 15px;
+            margin-top: 5px;
 
             span {
               color: #FFFFFF;
-              font-size: 14px;
+              font-size: 13px;
               line-height: 17px;
+              font-weight: 500;
             }
 
             p {
               color: #FFFFFF;
-              font-size: 14px;
+              font-size: 13px;
               line-height: 17px;
+              font-weight: 500;
               margin: 8px 0 0 0;
             }
           }
 
           &__actions {
             display: flex;
-            margin-top: 25px;
+            margin-top: 20px;
 
             &__call {
               background: #615DFA;
               color: #FFFFFF;
               margin-right: 8px;
               width: 150px;
-              height: 50px;
-              text-transform: none;
-              font-weight: 400;
-              font-size: 14px;
-              line-height: 50px;
-              border: none;
-              border-radius: 8px;
-              text-align: center;
-              vertical-align: middle
-            }
-
-            &__services {
-              background: #FFD966;
-              color: #4E3F6F;
-              width: 152px;
               height: 48px;
               text-transform: none;
               font-weight: 400;
@@ -431,6 +267,22 @@
               line-height: 50px;
               border: none;
               border-radius: 8px;
+              box-shadow: none
+            }
+
+            &__services {
+              background: #FFD966;
+              color: #4E3F6F;
+              margin-left: 8px;
+              width: 150px;
+              height: 48px;
+              text-transform: none;
+              font-weight: 400;
+              font-size: 14px;
+              line-height: 50px;
+              border: none;
+              border-radius: 8px;
+              box-shadow: none
             }
           }
       }
@@ -543,28 +395,89 @@
 
 .actions {
   &__group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     &-button {
       display: flex;
       height: 80px;
+      max-width: 312px;
+      background: white;
+
+      &:hover {
+        background: #F2F2FE;
+      }
 
       .actions-button-text {
         display: flex;
         align-items: center;
+        background: white;
 
         .actions__group-button-icon {
           width: 48px;
-          height: 48px
+          height: 48px;
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 16px;
+
+          &__chat {
+            background: #8378F8;
+          }
+
+          &__phone {
+            background: #FF7AE9;
+          }
+
+          &__videocam {
+            background: #6BB1F9;
+          }
+
+          &__mic {
+            background: #8378F8;
+          }
+
+            .actions__group-button-icon__i {
+              color: white;
+              font-size: 18px;
+            }
         }
 
         .actions__group-button-text {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
+          justify-content: center;
+
+          .actions__group-button-text__title {
+            color: #4E3F6F;
+            font-size: 20px;
+            line-height: 24px;
+          }
+
+          .actions__group-button-text__desc {
+            margin-top: 5px;
+            font-size: 14px;
+            line-height: 17px;
+            color: #8C8CB6;
+          }
         }
       }
 
     }
+
+    .actions__group-button__cancel {
+      max-width: 312px;
+      background: white;
+      font-size: 18px;
+      line-height: 21px;
+      color: #4E3F6F;
+      display: flex;
+      align-items: center;
+    }
+
   }
 }
 </style>

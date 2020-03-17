@@ -3,7 +3,7 @@
 
       <div :style="{backgroundImage: `url(${category.cover})`}" class="category__widget__categorys">
 
-          <span class="category__widget__categorys__title">{{category.name}}</span>
+        <span class="category__widget__categorys__title">{{category.name}}</span>
 
       </div>
 
@@ -41,4 +41,5 @@ export default {
         }
     }
   }
+
 </style>
