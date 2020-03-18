@@ -53,3 +53,10 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+  .popup-backdrop, .backdrop-in {
+    background: #000000;
+    opacity: 0.6!important;
+  }
+</style>

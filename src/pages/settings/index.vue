@@ -26,25 +26,45 @@
             </div>
           </f7-link>
 
-          <f7-link href="/profile">
-            <div class="settings__page__content__item">
+<!-- Socials -->
+          <f7-button fill popup-open=".demo-popup-swipe-handler" class="social__popup popup__item">
+            <div class="social__popup__item">
 
-              <div class="settings__page__content__item__icon">
+              <div class="social__popup__item__icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M23.8657 8.64C23.3324 6.66667 21.3058 5.46667 19.3325 5.97333C18.1592 3.65333 16.186 1.92 13.7594 1.06667C11.3862 0.266667 8.87963 0.346667 6.61306 1.33333C5.91975 0.533333 4.8798 0 3.73318 0C1.67993 0 0 1.68 0 3.73333C0 4.82667 0.47998 5.81333 1.25328 6.50667C0.106662 8.88 -0.053331 11.52 0.826632 14C1.7066 16.5067 3.51985 18.5067 5.91975 19.68C5.6531 21.5467 6.79972 23.36 8.63964 23.8667C8.95963 23.9467 9.27961 24 9.62626 24C10.2662 24 10.9062 23.84 11.4662 23.52C12.3195 23.04 12.9595 22.2133 13.1994 21.2533C13.2794 20.96 13.3061 20.6667 13.3328 20.3733C16.746 19.4133 19.4125 16.7467 20.3458 13.3333C20.6391 13.3333 20.9325 13.28 21.2258 13.2C22.1857 12.96 23.0124 12.32 23.4923 11.4667C23.999 10.6133 24.1323 9.6 23.8657 8.64ZM1.06662 3.73333C1.06662 2.26667 2.26657 1.06667 3.73318 1.06667C4.61314 1.06667 5.38644 1.49333 5.89309 2.16L6.05308 2.45333C6.2664 2.82667 6.39973 3.28 6.39973 3.76C6.39973 5.22667 5.19978 6.42667 3.73318 6.42667C2.26657 6.42667 1.06662 5.2 1.06662 3.73333ZM12.1862 20.96C11.9995 21.6267 11.5462 22.2133 10.9595 22.56C10.3462 22.9067 9.62626 23.0133 8.93296 22.8267C7.51969 22.4533 6.66639 20.96 7.03971 19.5467C7.22636 18.88 7.67968 18.2933 8.26632 17.9467C8.87963 17.6 9.5996 17.4933 10.2929 17.68C11.7062 18.08 12.5595 19.5467 12.1862 20.96ZM13.1994 19.28C12.8528 18.0533 11.8928 17.0133 10.5596 16.6667C9.5996 16.4 8.58631 16.5333 7.73301 17.0133C7.06637 17.3867 6.55973 17.9733 6.23974 18.64C4.13316 17.6 2.58656 15.84 1.81326 13.6533C1.06662 11.4933 1.17328 9.17333 2.13324 7.09333C2.61322 7.33333 3.14653 7.46667 3.73318 7.46667C5.78642 7.46667 7.46635 5.78667 7.46635 3.73333C7.46635 3.2 7.35969 2.72 7.17303 2.26667C9.14628 1.44 11.3329 1.38667 13.3861 2.08C15.546 2.82667 17.2793 4.34667 18.3459 6.4C17.8126 6.72 17.3593 7.17333 17.0393 7.73333C16.5593 8.58667 16.426 9.62667 16.666 10.56C17.0126 11.8933 18.0526 12.8533 19.2792 13.2C18.4259 16.1333 16.1327 18.4267 13.1994 19.28ZM22.5857 10.9333C22.2391 11.5467 21.6524 12 20.9858 12.16C19.5725 12.5333 18.1059 11.68 17.7059 10.2667C17.5193 9.6 17.6259 8.85333 17.9726 8.24C18.3192 7.62667 18.9059 7.17333 19.5725 7.01333C19.7858 6.96 20.0258 6.93333 20.2392 6.93333C21.4124 6.93333 22.5057 7.73333 22.8257 8.93333C23.0124 9.6 22.9324 10.3467 22.5857 10.9333Z" fill="#8C8CB6"/>
                 </svg>
               </div>
 
-              <div class="settings__page__content__item__text">
+              <div class="social__popup__item__text">
                 <p>Социальные сети</p>
               </div>
 
-              <div class="settings__page__content__item__link">
+              <div class="social__popup__item__link">
                 <i class="f7-icons">chevron_right</i>
               </div>
 
             </div> 
-          </f7-link>
+          </f7-button>
+
+            <!-- <f7-block-title large>Hello!</f7-block-title>
+              <f7-block strong>
+                <p class="swipe-handler"><b>Swipe works only on this paragraph</b></p>
+                <p>Lorem ipsum dolor sit amet...</p>
+            </f7-block> -->
+
+          <f7-popup class="demo-popup-swipe-handler" swipe-to-close swipe-handler=".swipe-handler">
+            <f7-page>
+              <div class="social__popup__content">
+                <div class="swipe-handler">
+                  <svg width="51" height="4" viewBox="0 0 51 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="2" y1="2" x2="49" y2="2" stroke="#8C8CB6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+            </f7-page>
+          </f7-popup>
+<!--  -->
 
           <f7-link href="/profile">
             <div class="settings__page__content__item">
@@ -203,7 +223,7 @@
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .settings__page { 
     
     &__content__title {
@@ -230,6 +250,41 @@
           width: 100%;
         }
 
+        .social__popup {
+          background: white;
+          height: 60px;
+          border-bottom: 1px solid rgba(232, 232, 240, 0.5);
+          padding: 0;
+
+            .social__popup__item {
+              display: flex;
+              align-items: center;
+              padding: 0 15px 0 20px;
+
+                &__icon {
+                  height: 24px;
+                  width: 24px;
+                }
+                &__text{
+                  margin-left: 20px;
+                  p {
+                    font-size: 18px;
+                    line-height: 21px;
+                    font-weight: 400;
+                    text-transform: none;
+                    color: #4E3F6F;
+                  }
+                }
+                &__link {
+                  margin-left: auto;
+                  i {
+                    font-size: 16px;
+                    color: #9393bb;
+                  }
+                }
+            }
+        }
+
         &__item__profile {
           display: flex;
           align-items: center;
@@ -245,8 +300,8 @@
             &-text {
               margin-left: 15px;
               margin-right: 10px;
+
               p {
-                margin: 0;
                 padding: 0;
               }
 
@@ -254,12 +309,14 @@
                 color: #4E3F6F;
                 font-size: 18px;
                 line-height: 21px;
+                margin: 0;
               }
 
               &__desc {
                   color: #8C8CB6;
                   font-size: 14px;
                   line-height: 17px;
+                  margin: 10px 0 0 0;
 
                     span {
                       color: #4E3F6F;
@@ -285,7 +342,8 @@
           height: 60px;
 
             &__icon {
-
+              height: 24px;
+              width: 24px;
             }
             &__text {
               margin-left: 20px;
@@ -311,5 +369,24 @@
       width: 100%;
       border-top: 1px solid rgba(232, 232, 240, 0.5);
     }
+
+  }
+
+
+  .demo-popup-swipe-handler {
+    top: auto;
+    height: 50vh;
+    bottom: 0;
+    background: #FFFFFF;
+    border-radius: 40px 40px 0px 0px;
+
+      .social__popup__content {
+
+        .swipe-handler {
+          padding: 20px 0;
+          display: flex;
+          justify-content: center
+        }
+      }
   }
 </style>
