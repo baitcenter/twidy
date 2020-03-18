@@ -14,13 +14,11 @@
           <search-widget></search-widget>
         </div>
 
-
         <div class="discover__hashtags">
           <f7-link no-link-class :href="`/hashtag`" >
             <span v-for="hashtag in hashTags" :key="hashtag.value">#{{hashtag.value}} </span>
           </f7-link>
         </div>
-
 
         <div class="slide-content">
           <swiper-widget></swiper-widget>
