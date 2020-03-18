@@ -26,7 +26,7 @@
             </div>
           </f7-link>
 
-<!-- Socials -->
+
           <f7-button fill popup-open=".demo-popup-swipe-handler" class="social__popup popup__item">
             <div class="social__popup__item">
 
@@ -47,12 +47,6 @@
             </div> 
           </f7-button>
 
-            <!-- <f7-block-title large>Hello!</f7-block-title>
-              <f7-block strong>
-                <p class="swipe-handler"><b>Swipe works only on this paragraph</b></p>
-                <p>Lorem ipsum dolor sit amet...</p>
-            </f7-block> -->
-
           <f7-popup class="demo-popup-swipe-handler" swipe-to-close swipe-handler=".swipe-handler">
             <f7-page>
               <div class="social__popup__content">
@@ -61,10 +55,68 @@
                     <line x1="2" y1="2" x2="49" y2="2" stroke="#8C8CB6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </div>
+
+                <div class="social__popup__content__active">
+                  <div class="social__popup__content__active__item">
+                    <div class="social__popup__content__active__item__icon">
+                      <i class="f7-icons">logo_twitter</i>
+                    </div>
+                    <div class="social__popup__content__active__item__text">
+                      <p class="social__popup__content__active__item__text__title">Lord_Mstiteley_1995</p>
+                      <p class="social__popup__content__active__item__text__desc">126 подписчиков</p>
+                    </div>
+                    <div class="social__popup__content__active__item__cancel">
+                      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.5 2C8.06 2 2 8.06 2 15.5C2 22.94 8.06 29 15.5 29C22.94 29 29 22.94 29 15.5C29 8.06 22.94 2 15.5 2ZM15.5 27.74C8.75 27.74 3.26 22.25 3.26 15.5C3.26 8.75 8.75 3.29 15.5 3.29C22.25 3.29 27.74 8.75 27.74 15.5C27.74 22.25 22.25 27.74 15.5 27.74Z" fill="#EB5757"/>
+                        <path d="M16.2605 15.4052C17.3485 14.3044 18.4365 13.2036 19.5245 12.1028C20.0987 11.5219 19.1921 10.6045 18.6178 11.1855C17.5298 12.2863 16.4418 13.3871 15.3538 14.4879C14.2658 13.3871 13.1778 12.2863 12.0898 11.1855C11.5156 10.6045 10.6089 11.5219 11.1832 12.1028C12.2712 13.2036 13.3592 14.3044 14.4472 15.4052C13.3592 16.506 12.2712 17.6068 11.1832 18.7076C10.6089 19.2886 11.5156 20.2059 12.0898 19.625C13.1778 18.5242 14.2658 17.4234 15.3538 16.3226C16.4418 17.4234 17.5298 18.5242 18.6178 19.625C19.1921 20.2059 20.0987 19.2886 19.5245 18.7076C18.4365 17.6068 17.3485 16.506 16.2605 15.4052Z" fill="#EB5757"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="social__popup__content__active__item">
+                    <div class="social__popup__content__active__item__icon">
+                      <i class="f7-icons">logo_twitter</i>
+                    </div>
+                    <div class="social__popup__content__active__item__text">
+                      <p class="social__popup__content__active__item__text__title">Lord_Mstiteley_1995</p>
+                      <p class="social__popup__content__active__item__text__desc">126 подписчиков</p>
+                    </div>
+                    <div class="social__popup__content__active__item__cancel">
+                      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.5 2C8.06 2 2 8.06 2 15.5C2 22.94 8.06 29 15.5 29C22.94 29 29 22.94 29 15.5C29 8.06 22.94 2 15.5 2ZM15.5 27.74C8.75 27.74 3.26 22.25 3.26 15.5C3.26 8.75 8.75 3.29 15.5 3.29C22.25 3.29 27.74 8.75 27.74 15.5C27.74 22.25 22.25 27.74 15.5 27.74Z" fill="#EB5757"/>
+                        <path d="M16.2605 15.4052C17.3485 14.3044 18.4365 13.2036 19.5245 12.1028C20.0987 11.5219 19.1921 10.6045 18.6178 11.1855C17.5298 12.2863 16.4418 13.3871 15.3538 14.4879C14.2658 13.3871 13.1778 12.2863 12.0898 11.1855C11.5156 10.6045 10.6089 11.5219 11.1832 12.1028C12.2712 13.2036 13.3592 14.3044 14.4472 15.4052C13.3592 16.506 12.2712 17.6068 11.1832 18.7076C10.6089 19.2886 11.5156 20.2059 12.0898 19.625C13.1778 18.5242 14.2658 17.4234 15.3538 16.3226C16.4418 17.4234 17.5298 18.5242 18.6178 19.625C19.1921 20.2059 20.0987 19.2886 19.5245 18.7076C18.4365 17.6068 17.3485 16.506 16.2605 15.4052Z" fill="#EB5757"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="social__popup__content__active__item">
+                    <div class="social__popup__content__active__item__icon">
+                      <i class="f7-icons">logo_twitter</i>
+                    </div>
+                    <div class="social__popup__content__active__item__text">
+                      <p class="social__popup__content__active__item__text__title">Lord_Mstiteley_1995</p>
+                      <p class="social__popup__content__active__item__text__desc">126 подписчиков</p>
+                    </div>
+                    <div class="social__popup__content__active__item__cancel">
+                      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.5 2C8.06 2 2 8.06 2 15.5C2 22.94 8.06 29 15.5 29C22.94 29 29 22.94 29 15.5C29 8.06 22.94 2 15.5 2ZM15.5 27.74C8.75 27.74 3.26 22.25 3.26 15.5C3.26 8.75 8.75 3.29 15.5 3.29C22.25 3.29 27.74 8.75 27.74 15.5C27.74 22.25 22.25 27.74 15.5 27.74Z" fill="#EB5757"/>
+                        <path d="M16.2605 15.4052C17.3485 14.3044 18.4365 13.2036 19.5245 12.1028C20.0987 11.5219 19.1921 10.6045 18.6178 11.1855C17.5298 12.2863 16.4418 13.3871 15.3538 14.4879C14.2658 13.3871 13.1778 12.2863 12.0898 11.1855C11.5156 10.6045 10.6089 11.5219 11.1832 12.1028C12.2712 13.2036 13.3592 14.3044 14.4472 15.4052C13.3592 16.506 12.2712 17.6068 11.1832 18.7076C10.6089 19.2886 11.5156 20.2059 12.0898 19.625C13.1778 18.5242 14.2658 17.4234 15.3538 16.3226C16.4418 17.4234 17.5298 18.5242 18.6178 19.625C19.1921 20.2059 20.0987 19.2886 19.5245 18.7076C18.4365 17.6068 17.3485 16.506 16.2605 15.4052Z" fill="#EB5757"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="social__popup__content__needly">
+                  <div class="social__popup__content__needly__wrapper">
+                    <div class="social__popup__content__needly__wrapper__item"></div>
+                    <div class="social__popup__content__needly__wrapper__item"></div>
+                    <div class="social__popup__content__needly__wrapper__item"></div>
+                    <div class="social__popup__content__needly__wrapper__item"></div>
+                    <div class="social__popup__content__needly__wrapper__item"></div>
+                  </div>
+                </div>
+
               </div>
             </f7-page>
           </f7-popup>
-<!--  -->
 
           <f7-link href="/profile">
             <div class="settings__page__content__item">
@@ -173,7 +225,7 @@
 
           <div class="push" style="height: 60px"></div>
 
-          </div>
+        </div>
 
           <f7-link class="exit__link" href="/profile">
             <div class="settings__page__content__item">
@@ -372,20 +424,96 @@
 
   }
 
-
   .demo-popup-swipe-handler {
     top: auto;
-    height: 50vh;
+    max-height: 51vh;
     bottom: 0;
     background: #FFFFFF;
     border-radius: 40px 40px 0px 0px;
 
+      .page {
+        background: white;
+      }
+
       .social__popup__content {
 
         .swipe-handler {
-          padding: 20px 0;
+          padding: 17px 0;
           display: flex;
           justify-content: center
+        }
+
+        &__active {
+          &__item {
+            display: flex;
+            align-items: center; 
+            border-bottom: 0.5px solid #ebebf2;
+            padding: 10px 20px;
+
+              &__icon {
+                background: #1DA1F2;
+                border-radius: 50%;
+                width: 33px;
+                height: 33px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                  i {
+                    font-size: 22px;
+                    color: white
+                  }
+              }
+              &__text {
+                margin-left: 15px;
+                &__title {
+                  margin: 0;
+                  font-size: 18px;
+                  line-height: 21px;
+                  font-weight: 500;
+                  color: #4E3F6F;
+                }
+                &__desc {
+                  margin: 5px 0 0 0;
+                  font-weight: 300;
+                  font-size: 14px;
+                  line-height: 17px;
+                  color: #8C8CB6;
+                }
+              }
+              &__cancel {
+                margin-left: auto;
+                width: 32px;
+                height: 32px;
+              }
+          }
+        }
+
+        &__needly {
+          margin-top: 25px;
+          background: #F2F2FE;
+          border-radius: 40px 40px 0px 0px;
+          padding: 30px 0;
+          min-width: 100%;
+
+            &__wrapper {
+              padding: 0 20px;
+              display: flex;
+              overflow-x: scroll;
+              margin-right: 20px;
+                &::-webkit-scrollbar {
+                  display: none;
+                }
+
+                &__item {
+                  background: #3B5998;
+                  border-radius: 8px;
+                  width: 100px;
+                  height: 100px;
+                  margin-right: 15px;
+                  flex-shrink: 0;
+                }
+            }
         }
       }
   }
