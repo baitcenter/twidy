@@ -72,40 +72,11 @@
                       </svg>
                     </div>
                   </div>
-                  <div class="social__popup__content__active__item">
-                    <div class="social__popup__content__active__item__icon">
-                      <i class="f7-icons">logo_twitter</i>
-                    </div>
-                    <div class="social__popup__content__active__item__text">
-                      <p class="social__popup__content__active__item__text__title">Lord_Mstiteley_1995</p>
-                      <p class="social__popup__content__active__item__text__desc">126 подписчиков</p>
-                    </div>
-                    <div class="social__popup__content__active__item__cancel">
-                      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15.5 2C8.06 2 2 8.06 2 15.5C2 22.94 8.06 29 15.5 29C22.94 29 29 22.94 29 15.5C29 8.06 22.94 2 15.5 2ZM15.5 27.74C8.75 27.74 3.26 22.25 3.26 15.5C3.26 8.75 8.75 3.29 15.5 3.29C22.25 3.29 27.74 8.75 27.74 15.5C27.74 22.25 22.25 27.74 15.5 27.74Z" fill="#EB5757"/>
-                        <path d="M16.2605 15.4052C17.3485 14.3044 18.4365 13.2036 19.5245 12.1028C20.0987 11.5219 19.1921 10.6045 18.6178 11.1855C17.5298 12.2863 16.4418 13.3871 15.3538 14.4879C14.2658 13.3871 13.1778 12.2863 12.0898 11.1855C11.5156 10.6045 10.6089 11.5219 11.1832 12.1028C12.2712 13.2036 13.3592 14.3044 14.4472 15.4052C13.3592 16.506 12.2712 17.6068 11.1832 18.7076C10.6089 19.2886 11.5156 20.2059 12.0898 19.625C13.1778 18.5242 14.2658 17.4234 15.3538 16.3226C16.4418 17.4234 17.5298 18.5242 18.6178 19.625C19.1921 20.2059 20.0987 19.2886 19.5245 18.7076C18.4365 17.6068 17.3485 16.506 16.2605 15.4052Z" fill="#EB5757"/>
-                      </svg>
-                    </div>
-                  </div>
-                  <div class="social__popup__content__active__item">
-                    <div class="social__popup__content__active__item__icon">
-                      <i class="f7-icons">logo_twitter</i>
-                    </div>
-                    <div class="social__popup__content__active__item__text">
-                      <p class="social__popup__content__active__item__text__title">Lord_Mstiteley_1995</p>
-                      <p class="social__popup__content__active__item__text__desc">126 подписчиков</p>
-                    </div>
-                    <div class="social__popup__content__active__item__cancel">
-                      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15.5 2C8.06 2 2 8.06 2 15.5C2 22.94 8.06 29 15.5 29C22.94 29 29 22.94 29 15.5C29 8.06 22.94 2 15.5 2ZM15.5 27.74C8.75 27.74 3.26 22.25 3.26 15.5C3.26 8.75 8.75 3.29 15.5 3.29C22.25 3.29 27.74 8.75 27.74 15.5C27.74 22.25 22.25 27.74 15.5 27.74Z" fill="#EB5757"/>
-                        <path d="M16.2605 15.4052C17.3485 14.3044 18.4365 13.2036 19.5245 12.1028C20.0987 11.5219 19.1921 10.6045 18.6178 11.1855C17.5298 12.2863 16.4418 13.3871 15.3538 14.4879C14.2658 13.3871 13.1778 12.2863 12.0898 11.1855C11.5156 10.6045 10.6089 11.5219 11.1832 12.1028C12.2712 13.2036 13.3592 14.3044 14.4472 15.4052C13.3592 16.506 12.2712 17.6068 11.1832 18.7076C10.6089 19.2886 11.5156 20.2059 12.0898 19.625C13.1778 18.5242 14.2658 17.4234 15.3538 16.3226C16.4418 17.4234 17.5298 18.5242 18.6178 19.625C19.1921 20.2059 20.0987 19.2886 19.5245 18.7076C18.4365 17.6068 17.3485 16.506 16.2605 15.4052Z" fill="#EB5757"/>
-                      </svg>
-                    </div>
-                  </div>
                 </div>
 
                 <div class="social__popup__content__needly">
                   <div class="social__popup__content__needly__wrapper">
+                    <div class="social__popup__content__needly__wrapper__item"></div>
                     <div class="social__popup__content__needly__wrapper__item"></div>
                     <div class="social__popup__content__needly__wrapper__item"></div>
                     <div class="social__popup__content__needly__wrapper__item"></div>
@@ -136,7 +107,7 @@
             </div> 
           </f7-link>
 
-          <f7-link href="/profile">
+          <f7-link href="/finance">
             <div class="settings__page__content__item">
 
               <div class="settings__page__content__item__icon">
@@ -258,7 +229,9 @@
 
     data() {
       return {
-        User: null
+        User: null,
+        needly: [],
+        active: []
       }
     },
 
@@ -269,7 +242,14 @@
     },
 
     mounted() {
-      this.$store.dispatch('GET_USER', 894)
+      this.$store.dispatch('GET_USER', 894);
+
+      axios.get('http://dev.twidy.ru/api/methods/user.getLinked?') // Для вёрстки
+        .then( resp => {
+          console.log(resp.data.result);
+          this.needly = resp.data.result.needly
+          this.active = resp.data.result.active
+        })
     }
   }
 
@@ -426,7 +406,7 @@
 
   .demo-popup-swipe-handler {
     top: auto;
-    max-height: 51vh;
+    max-height: 60%;
     bottom: 0;
     background: #FFFFFF;
     border-radius: 40px 40px 0px 0px;
@@ -436,7 +416,7 @@
       }
 
       .social__popup__content {
-
+        height: 100%;
         .swipe-handler {
           padding: 17px 0;
           display: flex;
@@ -448,7 +428,7 @@
             display: flex;
             align-items: center; 
             border-bottom: 0.5px solid #ebebf2;
-            padding: 10px 20px;
+            padding: 20px 20px;
 
               &__icon {
                 background: #1DA1F2;
@@ -466,6 +446,7 @@
               }
               &__text {
                 margin-left: 15px;
+
                 &__title {
                   margin: 0;
                   font-size: 18px;
@@ -490,27 +471,23 @@
         }
 
         &__needly {
-          margin-top: 25px;
+          margin-top: 30px;
           background: #F2F2FE;
+          max-height: 100%;
           border-radius: 40px 40px 0px 0px;
-          padding: 30px 0;
+          padding: 20px 0;
           min-width: 100%;
 
             &__wrapper {
-              padding: 0 20px;
               display: flex;
-              overflow-x: scroll;
-              margin-right: 20px;
-                &::-webkit-scrollbar {
-                  display: none;
-                }
+              flex-wrap: wrap;
 
                 &__item {
                   background: #3B5998;
                   border-radius: 8px;
-                  width: 100px;
+                  width: calc(33.333% - 20px);
                   height: 100px;
-                  margin-right: 15px;
+                  margin: 10px 10px;
                   flex-shrink: 0;
                 }
             }
