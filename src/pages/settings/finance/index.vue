@@ -15,23 +15,50 @@
         <div class="swiper-wrapper">
             <div class="swiper-popup-active-btn">
                 <f7-button fill popup-open=".popup-new-card" class="social__popup popup__item">
-                    click
+                    <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.7521 1.14038C10.7521 0.588096 10.3044 0.140381 9.75208 0.140381C9.19979 0.140381 8.75208 0.588097 8.75208 1.14038V8.14038H1.75208C1.19979 8.14038 0.752075 8.5881 0.752075 9.14038C0.752075 9.69267 1.19979 10.1404 1.75208 10.1404H8.75208V17.1404C8.75208 17.6927 9.19979 18.1404 9.75208 18.1404C10.3044 18.1404 10.7521 17.6927 10.7521 17.1404V10.1404H17.7521C18.3044 10.1404 18.7521 9.69267 18.7521 9.14038C18.7521 8.5881 18.3044 8.14038 17.7521 8.14038H10.7521V1.14038Z" fill="#4E3F6F"/>
+                    </svg>
                 </f7-button>
             </div>
             <div v-for="i in 5" :key="i" class="swiper-slide">
                 <div style="background: grey; border-radius: 8px; height: 110px"></div>
             </div>
-            <div class="swiper-block"></div>
+            <!-- <div class="swiper-block"></div> -->
         </div>
     </div>
 
     <f7-popup class="popup-new-card" swipe-to-close swipe-handler=".swipe-handler">
         <f7-page>
-            <div class="social__popup__content">
+            <div class="new-card__popup__content">
                 <div class="swipe-handler">
                     <svg width="51" height="4" viewBox="0 0 51 4" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <line x1="2" y1="2" x2="49" y2="2" stroke="#8C8CB6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
+                </div>
+
+                <div class="new-card__popup__content__form">
+                    <p class="new-card__popup__content__form__title">Добавить карту</p>
+                    <div class="new-card__popup__content__form__wrapper">
+                        <div class="new-card__popup__content__form__wrapper__card-number">
+                            <input type="number" placeholder="Номер карты">
+                        </div>
+                        <div class="new-card__popup__content__form__wrapper__card-date">
+                            <input type="number" placeholder="Срок действия">
+                            <input type="number" placeholder="CVC/CVV">
+                        </div>
+                        <div class="new-card__popup__content__form__wrapper__card-name">
+                            <input type="text" placeholder="Имя держателя">
+                        </div>
+                    </div>
+                    <div class="new-card__popup__content__form__info">
+                        <p>Карта должна быть именной, не виртуальной и поддерживать безакцептное списание.</p>
+                    </div>
+                    <div class="new-card__popup__content__form__add-btn">
+                        <button>Добавить карту</button>
+                    </div>
+                    <div class="new-card__popup__content__form__cancel-btn">
+                        <button>Отмена</button>
+                    </div>
                 </div>
             </div>
         </f7-page>
@@ -80,43 +107,7 @@
             <f7-block-title class="finance-page__content__history__title">
                 <span class="finance-page__content__history__title__text">История</span>
             </f7-block-title>
-            <div class="finance-page__content__history__user">
-                <div class="finance-page__content__history__user__photo">
-                    <img src="static/chat.png" alt="">
-                </div>
-                <div class="finance-page__content__history__user__biogr">
-                    <p class="finance-page__content__history__user__biogr__title">Наталья Фабричнова</p>
-                    <p class="finance-page__content__history__user__biogr__text">3 часа назад</p>
-                </div>
-                <div class="finance-page__content__history__user__money">
-                    <p>+750$</p>
-                </div>
-            </div>
-            <div class="finance-page__content__history__user">
-                <div class="finance-page__content__history__user__photo">
-                    <img src="static/chat.png" alt="">
-                </div>
-                <div class="finance-page__content__history__user__biogr">
-                    <p class="finance-page__content__history__user__biogr__title">Наталья Фабричнова</p>
-                    <p class="finance-page__content__history__user__biogr__text">3 часа назад</p>
-                </div>
-                <div class="finance-page__content__history__user__money">
-                    <p>+750$</p>
-                </div>
-            </div>
-            <div class="finance-page__content__history__user">
-                <div class="finance-page__content__history__user__photo">
-                    <img src="static/chat.png" alt="">
-                </div>
-                <div class="finance-page__content__history__user__biogr">
-                    <p class="finance-page__content__history__user__biogr__title">Наталья Фабричнова</p>
-                    <p class="finance-page__content__history__user__biogr__text">3 часа назад</p>
-                </div>
-                <div class="finance-page__content__history__user__money">
-                    <p>+750$</p>
-                </div>
-            </div>
-            <div class="finance-page__content__history__user">
+            <div class="finance-page__content__history__user" v-for="i in 10" :key="i">
                 <div class="finance-page__content__history__user__photo">
                     <img src="static/chat.png" alt="">
                 </div>
@@ -176,8 +167,15 @@
                             height: 110px;
                             background: #FFFFFF;
                             border-radius: 8px;
-                            color: black;
-                            margin-right: 10px
+                            margin-right: 10px;
+
+                                a {
+                                    width: 60px;
+                                    height: 100%;
+                                    background: white;
+                                    display: flex;
+                                    align-items: center
+                                }
                         }
                         .swiper-slide-active, .swiper-slide-prev, .swiper-slide-next {
                             max-width: 180px;
@@ -295,14 +293,14 @@
                     background: #FFFFFF;
                     border-radius: 40px 40px 0px 0px;
                     height: 100%;
-                    padding: 25px 0 25px 0;
+                    padding: 25px 0 60px 0;
 
                     &__title {
                         margin: 0 0 0 32px;
 
                         &__text {
                             font-weight: 500;
-                            font-size: 18px;
+                            font-size: 20px;
                             line-height: 21px;
                             color: #4E3F6F;
                         }
@@ -347,4 +345,109 @@
                 }
         }
     }
+
+  .popup-new-card {
+    top: auto;
+    max-height: 60%;
+    bottom: 0;
+    background: #FFFFFF;
+    border-radius: 20px 20px 0px 0px;
+
+      .page {
+        background: white;
+
+            .new-card__popup__content {
+                height: 100%;
+
+                .swipe-handler {
+                    padding: 17px 0;
+                    display: flex;
+                    justify-content: center
+                }
+
+                &__form {
+                    padding: 0 32px;
+                    &__title {
+                        font-weight: 500;
+                        font-size: 18px;
+                        line-height: 21px;
+                        color: #4E3F6F;
+                    }
+                    &__wrapper {
+                        margin-top: 30px;
+
+                        &__card-number {
+                            input {
+                                width: 100%;
+                                border-bottom: 1px solid #8C8CB6;
+                                padding-bottom: 15px;
+                                font-size: 18px; line-height: 21px; color: #4E3F6F;
+
+                                &::placeholder {font-size: 18px; line-height: 21px; color: #4E3F6F; font-weight: 500}
+                            }
+                        }
+                        &__card-date {
+                            margin-top: 17px;
+                            display: flex;
+
+                            input {
+                                width: 50%;
+                                border-bottom: 1px solid #8C8CB6;
+                                padding-bottom: 15px;
+                                font-size: 18px; line-height: 21px; color: #4E3F6F;
+
+                                &::placeholder {font-size: 17px; line-height: 21px; color: #4E3F6F; font-weight: 500}
+                                &:first-child {margin-right: 12px;}
+                                &:last-child {margin-left: 12px;}
+                            }
+                        }
+                        &__card-name {
+                            margin-top: 17px;
+
+                            input {
+                                width: 100%;
+                                border-bottom: 1px solid #8C8CB6;
+                                padding-bottom: 15px;
+                                font-size: 18px; line-height: 21px; color: #4E3F6F;
+
+                                &::placeholder {font-size: 18px; line-height: 21px; color: #4E3F6F; font-weight: 500}
+                            }
+                        }
+
+                    }
+                    &__info {
+                        margin-top: 33px;
+                        text-align: center;
+                        
+                            p {font-size: 12px; line-height: 20px; color: #8C8CB6;}
+                    }
+                    &__add-btn {
+                        margin-top: 40px;
+
+                        button {
+                            background: #E8E8F0;
+                            border-radius: 8px;
+                            border: none;
+                            height: 48px;
+                            font-size: 17px;
+                            line-height: 21px;
+                            color: #8C8CB6;
+                        }
+                    }
+                    &__cancel-btn {
+                        margin-top: 5px;
+                        button {
+                            background: none;
+                            border: none;
+                            height: 48px;
+                            font-size: 17px;
+                            line-height: 21px;
+                            color: #4E3F6F;
+                        }
+                    }
+                }
+            }
+      }
+
+  }
 </style>
