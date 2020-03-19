@@ -8,7 +8,7 @@
     <div 
         data-pagination='{"el": ".swiper-pagination"}' 
         data-space-between="10" 
-        data-slides-per-view="2" 
+        data-slides-per-view="2"
         data-centered-slides="false" 
         class="swiper-container swiper-init demo-swiper demo-swiper-auto discover-slider">
 
@@ -19,8 +19,9 @@
                 </f7-button>
             </div>
             <div v-for="i in 5" :key="i" class="swiper-slide">
-                <div style="background: grey; border-radius: 8px; width: 180px; height: 110px;"></div>
+                <div style="background: grey; border-radius: 8px; height: 110px"></div>
             </div>
+            <div class="swiper-block"></div>
         </div>
     </div>
 
@@ -55,9 +56,9 @@
             </div>
         </div>
 
-        <div class="">
-            <f7-button fill popup-open=".popup-outcome-money" class="social__popup popup__item">
-                Заявка на вывод <i class="f7-icons">chevron_down</i>
+        <div class="finance-page__content__outcome-money">
+            <f7-button fill popup-open=".popup-outcome-money" class="money__popup popup__item">
+                <p>Заявка на вывод</p><i class="f7-icons">chevron_down</i>
             </f7-button>
 
             <f7-popup class="popup-outcome-money" swipe-to-close swipe-handler=".swipe-handler">
@@ -73,6 +74,60 @@
                 </f7-page>
             </f7-popup>
 
+        </div>
+
+        <div class="finance-page__content__history">
+            <f7-block-title class="finance-page__content__history__title">
+                <span class="finance-page__content__history__title__text">История</span>
+            </f7-block-title>
+            <div class="finance-page__content__history__user">
+                <div class="finance-page__content__history__user__photo">
+                    <img src="static/chat.png" alt="">
+                </div>
+                <div class="finance-page__content__history__user__biogr">
+                    <p class="finance-page__content__history__user__biogr__title">Наталья Фабричнова</p>
+                    <p class="finance-page__content__history__user__biogr__text">3 часа назад</p>
+                </div>
+                <div class="finance-page__content__history__user__money">
+                    <p>+750$</p>
+                </div>
+            </div>
+            <div class="finance-page__content__history__user">
+                <div class="finance-page__content__history__user__photo">
+                    <img src="static/chat.png" alt="">
+                </div>
+                <div class="finance-page__content__history__user__biogr">
+                    <p class="finance-page__content__history__user__biogr__title">Наталья Фабричнова</p>
+                    <p class="finance-page__content__history__user__biogr__text">3 часа назад</p>
+                </div>
+                <div class="finance-page__content__history__user__money">
+                    <p>+750$</p>
+                </div>
+            </div>
+            <div class="finance-page__content__history__user">
+                <div class="finance-page__content__history__user__photo">
+                    <img src="static/chat.png" alt="">
+                </div>
+                <div class="finance-page__content__history__user__biogr">
+                    <p class="finance-page__content__history__user__biogr__title">Наталья Фабричнова</p>
+                    <p class="finance-page__content__history__user__biogr__text">3 часа назад</p>
+                </div>
+                <div class="finance-page__content__history__user__money">
+                    <p>+750$</p>
+                </div>
+            </div>
+            <div class="finance-page__content__history__user">
+                <div class="finance-page__content__history__user__photo">
+                    <img src="static/chat.png" alt="">
+                </div>
+                <div class="finance-page__content__history__user__biogr">
+                    <p class="finance-page__content__history__user__biogr__title">Наталья Фабричнова</p>
+                    <p class="finance-page__content__history__user__biogr__text">3 часа назад</p>
+                </div>
+                <div class="finance-page__content__history__user__money">
+                    <p>+750$</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -124,6 +179,15 @@
                             color: black;
                             margin-right: 10px
                         }
+                        .swiper-slide-active, .swiper-slide-prev, .swiper-slide-next {
+                            max-width: 180px;
+                            height: 110px
+                        }
+                        .swiper-block {
+                            min-width: 180px;
+                            height: 110px;
+                            background: red
+                        }
                 }
         }
 
@@ -131,7 +195,7 @@
             background: rgba(140, 140, 182, 0.1);
             border-radius: 40px 40px 0px 0px;
             padding: 25px 0 0 0;
-            height: 100%;
+            max-height: 100%;
 
                 &__title {
                     margin: 0 0 0 32px;
@@ -198,6 +262,86 @@
                                     line-height: 14px;
                                     color: #8C8CB6;
                                 }
+                            }
+                    }
+                }
+                &__outcome-money {
+                    margin-top: 35px;
+
+                    .money__popup {
+                        margin: 0 32px;
+                        background: #615DFA;
+                        border-radius: 8px;
+                        display: flex;
+                        align-items: center;
+                        height: 48px;
+
+                            p {
+                                font-size: 16px;
+                                font-weight: 400;
+                                text-transform: none;
+                                color: #FFFFFF;
+                            }
+                            i {
+                                margin-top: 3px;
+                                margin-left: 20px;
+                                color: #FFFFFF;
+                                font-size: 16px
+                            }
+                    }
+                }
+                &__history {
+                    margin: 40px 0 0 0;
+                    background: #FFFFFF;
+                    border-radius: 40px 40px 0px 0px;
+                    height: 100%;
+                    padding: 25px 0 25px 0;
+
+                    &__title {
+                        margin: 0 0 0 32px;
+
+                        &__text {
+                            font-weight: 500;
+                            font-size: 18px;
+                            line-height: 21px;
+                            color: #4E3F6F;
+                        }
+                    }
+                    &__user {
+                        margin-top: 15px;
+                        display: flex;
+                        align-items: center;
+                        padding: 0 30px 0 30px;
+                        
+                            &__photo{}
+                            &__biogr{
+                                margin-left: 15px;
+                                &__title {
+                                    margin: 0;
+                                    font-size: 18px;
+                                    line-height: 21px;
+                                    color: #4E3F6F;
+                                    font-weight: 500;
+                                }
+                                &__text{
+                                    margin: 8px 0 0 0;
+                                    font-size: 14px;
+                                    line-height: 17px;
+                                    color: #8C8CB6;
+                                }
+                            }
+                            &__money{
+                                margin-top: auto;
+                                margin-left: auto;
+                                    p{
+                                        background: #FFA012;
+                                        border-radius: 11px;
+                                        padding: 4px 8px;
+                                        color: #FFFFFF;
+                                        font-size: 11px;
+                                        line-height: 13px;
+                                        margin: 0;
+                                    }
                             }
                     }
                 }
