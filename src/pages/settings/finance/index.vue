@@ -40,6 +40,7 @@
                     <p class="new-card__popup__content__form__title">Добавить карту</p>
                     <div class="new-card__popup__content__form__wrapper">
                         <div class="new-card__popup__content__form__wrapper__card-number">
+                            <img src="static/icons/visa-card.svg" alt="">
                             <input type="number" placeholder="Номер карты">
                         </div>
                         <div class="new-card__popup__content__form__wrapper__card-date">
@@ -57,7 +58,7 @@
                         <button>Добавить карту</button>
                     </div>
                     <div class="new-card__popup__content__form__cancel-btn">
-                        <button>Отмена</button>
+                        <button><f7-link popup-close>Отмена</f7-link></button>
                     </div>
                 </div>
             </div>
@@ -90,17 +91,47 @@
 
             <f7-popup class="popup-outcome-money" swipe-to-close swipe-handler=".swipe-handler">
                 <f7-page>
-                    <div class="social__popup__content">
+                    <div class="popup-outcome-money__content">
                         <div class="swipe-handler">
                             <svg width="51" height="4" viewBox="0 0 51 4" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <line x1="2" y1="2" x2="49" y2="2" stroke="#8C8CB6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
-                        <span>вывод денег</span>
+
+                        <div class="popup-outcome-money__content__form">
+                            <p class="popup-outcome-money__content__form__title">Счет зачисления</p>
+
+                            <div class="popup-outcome-money__content__form__cards">
+                                <div class="popup-outcome-money__content__form__cards__card" v-for="i in 5" :key="i">
+                                    <div class="popup-outcome-money__content__form__cards__card__icon">
+                                        <img src="static/icons/visa-card.svg" alt="">
+                                    </div>
+                                    <div class="popup-outcome-money__content__form__cards__card__text">
+                                        <span>Visa • 3456</span>
+                                    </div>
+                                    <div class="popup-outcome-money__content__form__cards__card__checkbox">
+                                        <label class="checkbox">
+                                            <input type="checkbox">
+                                            <i class="icon-checkbox"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="popup-outcome-money__content__form__salary">
+                                <input type="number" placeholder="Сумма вывода">
+                            </div>
+
+                            <div class="popup-outcome-money__content__form__outcome-btn">
+                                <button>Вывести</button>
+                            </div>
+                            <div class="popup-outcome-money__content__form__cancel-btn">
+                                <button><f7-link popup-close>Отмена</f7-link></button>
+                            </div>
+                        </div>
                     </div>
                 </f7-page>
             </f7-popup>
-
         </div>
 
         <div class="finance-page__content__history">
@@ -377,13 +408,17 @@
                         margin-top: 30px;
 
                         &__card-number {
+                            position: relative;
+                            img {
+                                position: absolute;
+                            }
                             input {
                                 width: 100%;
                                 border-bottom: 1px solid #8C8CB6;
-                                padding-bottom: 15px;
+                                padding: 0 0 15px 50px;
                                 font-size: 18px; line-height: 21px; color: #4E3F6F;
 
-                                &::placeholder {font-size: 18px; line-height: 21px; color: #4E3F6F; font-weight: 500}
+                                &::placeholder {font-size: 18px; line-height: 21px; color: #4E3F6F}
                             }
                         }
                         &__card-date {
@@ -396,7 +431,7 @@
                                 padding-bottom: 15px;
                                 font-size: 18px; line-height: 21px; color: #4E3F6F;
 
-                                &::placeholder {font-size: 17px; line-height: 21px; color: #4E3F6F; font-weight: 500}
+                                &::placeholder {font-size: 17px; line-height: 21px; color: #4E3F6F;}
                                 &:first-child {margin-right: 12px;}
                                 &:last-child {margin-left: 12px;}
                             }
@@ -410,7 +445,7 @@
                                 padding-bottom: 15px;
                                 font-size: 18px; line-height: 21px; color: #4E3F6F;
 
-                                &::placeholder {font-size: 18px; line-height: 21px; color: #4E3F6F; font-weight: 500}
+                                &::placeholder {font-size: 18px; line-height: 21px; color: #4E3F6F;}
                             }
                         }
 
@@ -440,11 +475,129 @@
                             background: none;
                             border: none;
                             height: 48px;
-                            font-size: 17px;
+
+                                a {
+                                    font-size: 17px;
+                                    line-height: 21px;
+                                    color: #4E3F6F;
+                                }
+                        }
+                    }
+                }
+            }
+      }
+
+  }
+
+  .popup-outcome-money {
+    top: auto;
+    max-height: 70%;
+    bottom: 0;
+    background: #FFFFFF;
+    border-radius: 20px 20px 0px 0px;
+
+      .page {
+        background: white;
+
+            .popup-outcome-money__content {
+                height: 100%;
+
+                .swipe-handler {
+                    padding: 17px 0;
+                    display: flex;
+                    justify-content: center
+                }
+
+                &__form {
+                    padding: 0 32px;
+
+                        &__title {
+                            font-weight: 500;
+                            font-size: 18px;
                             line-height: 21px;
                             color: #4E3F6F;
                         }
-                    }
+
+                        &__cards {
+                            
+                            &__card {
+                                border-bottom: 1px solid #8C8CB6;
+                                padding-bottom: 10px;
+                                margin-top: 10px;
+                                display: flex;
+                                align-items: center;
+
+                                    &:last-child{border-bottom: none}
+
+                                    &__text{
+                                        margin-left: 15px;
+
+                                        span {
+                                            font-size: 16px;
+                                            line-height: 21px;
+                                            font-weight: 400;
+                                            color: #4E3F6F;
+                                        }
+
+                                    }
+                                    &__checkbox{
+                                        margin-left: auto;
+                                            .checkbox {
+                                                .icon-checkbox {
+                                                    background: white!important;
+
+                                                    &::after {
+                                                        border-radius: 50%;
+                                                        background: #615DFA!important;
+                                                        color: white!important;
+                                                    }
+                                                }
+                                            }
+                                    }
+                            }
+                        }
+                        
+                        &__salary {
+                            margin-top: 35px;
+                            input {
+                                width: 100%;
+                                border-bottom: 1px solid #8C8CB6;
+                                padding-bottom: 15px;
+                                font-size: 18px;
+                                line-height: 21px;
+                                color: #615DFA;
+
+                                &::placeholder {font-size: 18px; line-height: 21px; color: #4E3F6F;}
+                            }
+                        }
+
+                        &__outcome-btn {
+                            margin-top: 40px;
+
+                            button {
+                                background: #E8E8F0;
+                                border-radius: 8px;
+                                border: none;
+                                height: 48px;
+                                font-size: 17px;
+                                line-height: 21px;
+                                color: #8C8CB6;
+                            }
+                        }
+                        &__cancel-btn {
+                            margin-top: 5px;
+                            button {
+                                background: none;
+                                border: none;
+                                height: 48px;
+
+                                    a {
+                                        font-size: 17px;
+                                        line-height: 21px;
+                                        color: #4E3F6F;
+                                    }
+                            }
+                        }
                 }
             }
       }
