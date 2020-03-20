@@ -89,7 +89,7 @@
             </f7-page>
           </f7-popup>
 
-          <f7-link href="/profile">
+          <f7-link href="/price">
             <div class="settings__page__content__item">
 
               <div class="settings__page__content__item__icon">

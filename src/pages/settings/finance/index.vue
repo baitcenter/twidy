@@ -2,16 +2,10 @@
   <f7-page class="finance-page safe-area">
     <div class="nav__bar">
         <f7-navbar back-link="" large-transparent></f7-navbar>
-        <p class="nav__bar__title">Оплата и финансы</p>
+         <div class="nav__bar__title"><p>Оплата и финансы</p></div>
     </div>
 
-    <div 
-        data-pagination='{"el": ".swiper-pagination"}' 
-        data-space-between="10" 
-        data-slides-per-view="2"
-        data-centered-slides="false" 
-        class="swiper-container swiper-init demo-swiper demo-swiper-auto discover-slider">
-
+    <div data-pagination='{"el": ".swiper-pagination"}' data-space-between="10" data-slides-per-view="2" data-centered-slides="true" class="finance-slider swiper-container swiper-init demo-swiper demo-swiper-auto">
         <div class="swiper-wrapper">
             <div class="swiper-popup-active-btn">
                 <f7-button fill popup-open=".popup-new-card" class="social__popup popup__item">
@@ -20,10 +14,7 @@
                     </svg>
                 </f7-button>
             </div>
-            <div v-for="i in 5" :key="i" class="swiper-slide">
-                <div style="background: grey; border-radius: 8px; height: 110px"></div>
-            </div>
-            <!-- <div class="swiper-block"></div> -->
+            <div :class="[i == selectedCard ? 'selectedCard' : '', 'swiper-slide']" @click=test(i) v-for="i in 5" :key="i">{{i}}</div>
         </div>
     </div>
 
@@ -159,8 +150,20 @@
 <script>
 
     export default {
-      name: '',
+        name: '',
 
+        data() {
+            return {
+                selectedCard: 1
+            }
+        },
+
+        methods: {
+            test(i) {
+                console.log(i)
+                this.selectedCard = i;
+            }
+        }
     }
 
 </script>
@@ -168,32 +171,30 @@
 <style lang="scss" scoped>
     .finance-page {
         .nav__bar {
-            margin-top: 10px;
             display: flex;
-            align-content: center;
-            height: 48px;
+            align-items: center;
 
             .navbar {
                 width: 10%;
             }
 
             &__title {
-                color: #4E3F6F;
-                font-size: 18px;
-                line-height: 21px;
-                font-weight: 400;
-                margin: 10px 0 0 20%;
+                width: 90%;
+                display: flex;
+                justify-content: center;
+                margin-right: 20px;
+
+                p {font-size: 18px; line-height: 21px; color: #4E3F6F;}
             }
         }
 
-        .discover-slider {
+        .finance-slider {
             position: relative;
             height: 130px;
 
                 .swiper-wrapper {
-
                         .swiper-popup-active-btn {
-                            margin-left: 30px;
+                            margin-left: -70px;
                             width: 60px;
                             height: 110px;
                             background: #FFFFFF;
@@ -212,10 +213,11 @@
                             max-width: 180px;
                             height: 110px
                         }
-                        .swiper-block {
-                            min-width: 180px;
-                            height: 110px;
-                            background: red
+                        .swiper-slide {
+                                background: grey; 
+                                border-radius: 8px; 
+                                height: 110px; 
+                                width: 180px;
                         }
                 }
         }
@@ -342,7 +344,6 @@
                         align-items: center;
                         padding: 0 30px 0 30px;
                         
-                            &__photo{}
                             &__biogr{
                                 margin-left: 15px;
                                 &__title {
@@ -602,5 +603,18 @@
             }
       }
 
+  }
+
+  .selectedCard {
+    &::after {
+        content: url('/static/icons/Selected.svg');
+        position: absolute;
+        left: 40%;
+        bottom: -15px;
+        background: white;
+        border-radius: 50%;
+        width: 33px;
+        height: 33px;
+    }
   }
 </style>

@@ -20,6 +20,7 @@ import ChatsPage from '../pages/chats/'
 // SETTINGS PAGE
 import SettingsPage from '../pages/settings/'
 import FinancePage from '../pages/settings/finance/'
+import PricePage from '../pages/settings/price/'
 
 // NOT FOUND PAGE
 import NotFoundPage from '../pages/404.vue';
@@ -33,7 +34,8 @@ var routes = [
   {path: '/user:domain', component: UserPage},
   {path: '/chats', component: ChatsPage, keepAlive: true},
   {path: '/settings', component: SettingsPage},
-  { path: "/finance", component: FinancePage },
+  {path: "/finance", component: FinancePage},
+  {path: "/price", component: PricePage},
   {path: '(.*)', component: NotFoundPage},
 ];
 

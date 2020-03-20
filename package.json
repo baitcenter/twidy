@@ -47,6 +47,7 @@
     "Samsung >= 5"
   ],
   "dependencies": {
+    "@ajoelp/json-to-formdata": "^1.1.0",
     "@avto-dev/bank-card-vue-component": "^1.0.9",
     "@codekraft-studio/vue-animated": "^0.1.5",
     "@seregpie/vueflex": "^20.0.0",
