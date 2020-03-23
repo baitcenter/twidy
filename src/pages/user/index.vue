@@ -100,12 +100,6 @@
 
       <div class="user-page__information__title">
         <span class="user-page__information__title__text">Информация</span>
-        <span class="user-page__information__title__menu">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="7" cy="12" r="2" fill="#8C8CB6"/>
-            <circle cx="17" cy="12" r="2" fill="#8C8CB6"/>
-          </svg>
-        </span>
       </div>
 
       <div class="user-page__information__socials">
@@ -138,12 +132,6 @@
 
         <div class="user-page__information__answers__title">
           <span class="user-page__information__answers__title-text">Ответы на запросы</span>
-          <span class="user-page__information__answers__title-menu">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="7" cy="12" r="2" fill="#8C8CB6"/>
-            <circle cx="17" cy="12" r="2" fill="#8C8CB6"/>
-          </svg>
-        </span>
         </div>
 
         <div class="user-page__information__answers__wrapper">
