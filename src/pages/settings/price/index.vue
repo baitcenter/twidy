@@ -49,7 +49,7 @@
                     class="contact-slider swiper-container swiper-init demo-swiper demo-swiper-auto"
                   >
                     <div class="swiper-wrapper">
-                      <div class="swiper-slide" v-for="item in contacts" :key="item.id">
+                      <div class="swiper-slide" v-for="item in contacts" :key="item.id" ref="slides">
                         <div class="swiper-slide__title">
                           <span>Стоимость {{item.text}}</span>
                         </div>
@@ -123,16 +123,16 @@
         </div>
 
         <f7-popup class="popup-new-contact" swipe-to-close swipe-handler=".swipe-handler">
-        <f7-page>
-            <div class="new-contact__popup__contact">
-                <div class="swipe-handler">
-                    <svg width="51" height="4" viewBox="0 0 51 4" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <line x1="2" y1="2" x2="49" y2="2" stroke="#8C8CB6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-            </div>
-        </f7-page>
-      </f7-popup> 
+          <f7-page>
+              <div class="new-contact__popup__contact">
+                  <div class="swipe-handler">
+                      <svg width="51" height="4" viewBox="0 0 51 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="2" y1="2" x2="49" y2="2" stroke="#8C8CB6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                  </div>
+              </div>
+          </f7-page>
+        </f7-popup> 
 
       </div>
       
@@ -177,6 +177,10 @@
 
         this.priceValue = price
       }
+    },
+
+    mounted() {
+        console.log(this.$refs.slides)
     }
   }
 
@@ -253,7 +257,7 @@
                         margin: 0;
                         font-size: 18px;
                         line-height: 21px;
-                        font-weight: 500;
+                        font-weight: 400;
                         text-transform: none;
                         color: #4E3F6F;
                       }

@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="social__popup__content__active">
-                  <div class="social__popup__content__active__item">
+                  <div class="social__popup__content__active__item" v-for="i in 4" :key="i">
                     <div class="social__popup__content__active__item__icon">
                       <i class="f7-icons">logo_twitter</i>
                     </div>
@@ -76,12 +76,7 @@
 
                 <div class="social__popup__content__needly">
                   <div class="social__popup__content__needly__wrapper">
-                    <div class="social__popup__content__needly__wrapper__item"></div>
-                    <div class="social__popup__content__needly__wrapper__item"></div>
-                    <div class="social__popup__content__needly__wrapper__item"></div>
-                    <div class="social__popup__content__needly__wrapper__item"></div>
-                    <div class="social__popup__content__needly__wrapper__item"></div>
-                    <div class="social__popup__content__needly__wrapper__item"></div>
+                    <div class="social__popup__content__needly__wrapper__item" v-for="i in 3" :key="i"></div>
                   </div>
                 </div>
 
@@ -407,16 +402,24 @@
   .demo-popup-swipe-handler {
     top: auto;
     max-height: 60%;
+    height: 100%;
     bottom: 0;
     background: #FFFFFF;
     border-radius: 40px 40px 0px 0px;
 
+      @media (max-height: 568px) {
+        max-height: 85%;
+      }
+
       .page {
         background: white;
+        height: 100%;
       }
 
       .social__popup__content {
         height: 100%;
+        box-sizing: border-box;
+
         .swipe-handler {
           padding: 17px 0;
           display: flex;
@@ -428,7 +431,7 @@
             display: flex;
             align-items: center; 
             border-bottom: 0.5px solid #ebebf2;
-            padding: 20px 20px;
+            padding: 10px 20px;
 
               &__icon {
                 background: #1DA1F2;
@@ -481,13 +484,14 @@
             &__wrapper {
               display: flex;
               flex-wrap: wrap;
+              justify-content: center;
 
                 &__item {
                   background: #3B5998;
                   border-radius: 8px;
                   width: calc(33.333% - 20px);
                   height: 100px;
-                  margin: 10px 10px;
+                  margin: 12px 5px;
                   flex-shrink: 0;
                 }
             }
