@@ -1,5 +1,5 @@
 <template>
-    <f7-link class="category__widget" :href="`/${category.name}`">
+    <f7-link class="category__widget" :href="`/category${category.name}`" :route-props="{ Category: category }">
 
       <div :style="{backgroundImage: `url(${category.cover})`}" class="category__widget__categorys">
 

@@ -32,10 +32,10 @@
                     <div class="new-card__popup__content__form__wrapper">
                         <div class="new-card__popup__content__form__wrapper__card-number">
                             <img src="static/icons/visa-card.svg" alt="">
-                            <input type="number" placeholder="Номер карты">
+                            <input v-mask="'#### #### #### ####'" placeholder="Номер карты">
                         </div>
                         <div class="new-card__popup__content__form__wrapper__card-date">
-                            <input type="number" placeholder="Срок действия">
+                            <input v-mask="'##/##'" placeholder="Срок действия">
                             <input type="number" placeholder="CVC/CVV">
                         </div>
                         <div class="new-card__popup__content__form__wrapper__card-name">
@@ -385,6 +385,10 @@
     background: #FFFFFF;
     border-radius: 20px 20px 0px 0px;
 
+    @media (max-height: 568px) {
+        max-height: 85%;
+    }
+
       .page {
         background: white;
 
@@ -414,7 +418,8 @@
                                 position: absolute;
                             }
                             input {
-                                width: 100%;
+                                width: 84%;
+                                border-top: none; border-right: none; border-left: none;
                                 border-bottom: 1px solid #8C8CB6;
                                 padding: 0 0 15px 50px;
                                 font-size: 18px; line-height: 21px; color: #4E3F6F;
@@ -428,6 +433,7 @@
 
                             input {
                                 width: 50%;
+                                border-top: none; border-right: none; border-left: none;
                                 border-bottom: 1px solid #8C8CB6;
                                 padding-bottom: 15px;
                                 font-size: 18px; line-height: 21px; color: #4E3F6F;
@@ -496,6 +502,10 @@
     bottom: 0;
     background: #FFFFFF;
     border-radius: 20px 20px 0px 0px;
+
+    @media (max-height: 568px) {
+        max-height: 97%;
+    }
 
       .page {
         background: white;

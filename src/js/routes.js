@@ -11,6 +11,9 @@ import DiscoverPage from '../pages/discover/'
 // SEARCH PAGE
 import SearchPage from '../pages/search/'
 
+// CATEGORY PAGE
+import CategoryPage from '../pages/category/'
+
 // USER PAGE
 import UserPage from '../pages/user/'
 
@@ -31,6 +34,7 @@ var routes = [
   {path: '/login', popup: { component: UserAuthorizationLoginPage}},
   {path: '/discover', component: DiscoverPage, keepAlive: true},
   {path: '/search', component: SearchPage},
+  {path: '/category:name', component: CategoryPage},
   {path: '/user:domain', component: UserPage},
   {path: '/chats', component: ChatsPage, keepAlive: true},
   {path: '/settings', component: SettingsPage},
